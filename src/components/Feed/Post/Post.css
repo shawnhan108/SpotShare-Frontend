@@ -18,29 +18,23 @@
 }
 
 .post__image {
-  height: 15rem;
+  height: auto;
   width: 100%;
   text-align: center;
-  width: auto;
-  text-align: center;
-  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden
 }
 
 .post_img {
-  border: 1px solid #ddd;
+  border: 10px solid #000000;
   border-radius: 4px;
-  padding: 5px;
-  max-width: 14rem;
   height: auto;
-
-}
-
-.post_img {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 5px;
-  max-width: 14rem;
-  height: auto;
+  width: auto;
+  flex-shrink: 0;
+  max-width: 100%;
+  max-height: 40rem;
 }
 
 .post__actions {
@@ -50,7 +44,7 @@
 @media (min-width: 768px) {
   .post {
     padding: 1rem;
-    width: 40rem;
+    width: 95%;
     margin-left: auto;
     margin-right: auto;
   }

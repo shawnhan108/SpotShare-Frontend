@@ -291,7 +291,7 @@ class Feed extends Component {
         </section>
         <section className="feed">
           {this.state.postsLoading && (
-            <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+            <div style={{ textAlign: 'center', marginTop: '2 rem' }}>
               <Loader />
             </div>
           )}
