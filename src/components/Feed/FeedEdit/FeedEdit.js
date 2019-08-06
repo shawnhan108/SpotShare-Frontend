@@ -7,7 +7,6 @@ import FilePicker from '../../Form/Input/FilePicker';
 import Image from '../../Image/Image';
 import { required, length } from '../../../util/validators';
 import { generateBase64FromImage } from '../../../util/image';
-import './FeedEdit.css';
 
 const POST_FORM = {
   title: {
@@ -253,7 +252,7 @@ class FeedEdit extends Component {
           onAcceptModal={this.acceptPostChangeHandler}
           isLoading={this.props.loading}
         >
-          <form className="feedEditForm">
+          <form>
             <Input
               id="title"
               label="Title"

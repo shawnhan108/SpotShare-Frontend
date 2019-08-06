@@ -1,18 +1,18 @@
 .input {
-  margin: 1rem 0;
+  margin: 0rem 0;
   width: 100%;
 }
 
 .input label {
   display: block;
   text-transform: uppercase;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0rem;
 }
 
 .input input,.input textarea {
   display: block;
   font: inherit;
-  padding: 0.25rem 0.5rem;
+  padding: 0.1rem 0.1rem;
   width: 100%;
   border-radius: 3px;
   border: 1px solid #ccc;
