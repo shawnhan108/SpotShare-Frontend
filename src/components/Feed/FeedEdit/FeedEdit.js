@@ -7,6 +7,7 @@ import FilePicker from '../../Form/Input/FilePicker';
 import Image from '../../Image/Image';
 import { required, length } from '../../../util/validators';
 import { generateBase64FromImage } from '../../../util/image';
+import './FeedEdit.css';
 
 const POST_FORM = {
   title: {
@@ -26,6 +27,60 @@ const POST_FORM = {
     valid: false,
     touched: false,
     validators: [required, length({ min: 5 })]
+  },
+  taken_date: {
+    value: '',
+    valid: false,
+    touched: false,
+    validators: [required]
+  },
+  location: {
+    value: '',
+    valid: false,
+    touched: false,
+    validators: [required]
+  },
+  ISO: {
+    value: '',
+    valid: false,
+    touched: false,
+    validators: [required]
+  },
+  shutter_speed: {
+    value: '',
+    valid: false,
+    touched: false,
+    validators: [required]
+  },
+  aperture: {
+    value: '',
+    valid: false,
+    touched: false,
+    validators: [required]
+  },
+  camera: {
+    value: '',
+    valid: false,
+    touched: false,
+    validators: [required]
+  },
+  lens: {
+    value: '',
+    valid: false,
+    touched: false,
+    validators: [required]
+  },
+  equipment: {
+    value: '',
+    valid: false,
+    touched: false,
+    validators: [required]
+  },
+  edit_soft: {
+    value: '',
+    valid: false,
+    touched: false,
+    validators: [required]
   }
 };
 
@@ -56,6 +111,51 @@ class FeedEdit extends Component {
         content: {
           ...prevState.postForm.content,
           value: this.props.selectedPost.content,
+          valid: true
+        },
+        taken_date: {
+          ...prevState.postForm.taken_date,
+          value: this.props.selectedPost.taken_date,
+          valid: true
+        },
+        location: {
+          ...prevState.postForm.location,
+          value: this.props.selectedPost.location,
+          valid: true
+        },
+        ISO: {
+          ...prevState.postForm.ISO,
+          value: this.props.selectedPost.ISO,
+          valid: true
+        },
+        shutter_speed: {
+          ...prevState.postForm.shutter_speed,
+          value: this.props.selectedPost.shutter_speed,
+          valid: true
+        },
+        aperture: {
+          ...prevState.postForm.aperture,
+          value: this.props.selectedPost.aperture,
+          valid: true
+        },
+        camera: {
+          ...prevState.postForm.camera,
+          value: this.props.selectedPost.camera,
+          valid: true
+        },
+        lens: {
+          ...prevState.postForm.lens,
+          value: this.props.selectedPost.lens,
+          valid: true
+        },
+        equipment: {
+          ...prevState.postForm.equipment,
+          value: this.props.selectedPost.equipment,
+          valid: true
+        },
+        edit_soft: {
+          ...prevState.postForm.edit_soft,
+          value: this.props.selectedPost.edit_soft,
           valid: true
         }
       };
@@ -123,7 +223,16 @@ class FeedEdit extends Component {
     const post = {
       title: this.state.postForm.title.value,
       image: this.state.postForm.image.value,
-      content: this.state.postForm.content.value
+      content: this.state.postForm.content.value,
+      taken_date: this.state.postForm.taken_date.value,
+      location: this.state.postForm.location.value,
+      ISO: this.state.postForm.ISO.value,
+      shutter_speed: this.state.postForm.shutter_speed.value,
+      aperture: this.state.postForm.aperture.value,
+      camera: this.state.postForm.camera.value,
+      lens: this.state.postForm.lens.value,
+      equipment: this.state.postForm.equipment.value,
+      edit_soft: this.state.postForm.edit_soft.value
     };
     this.props.onFinishEdit(post);
     this.setState({
@@ -144,7 +253,7 @@ class FeedEdit extends Component {
           onAcceptModal={this.acceptPostChangeHandler}
           isLoading={this.props.loading}
         >
-          <form>
+          <form className="feedEditForm">
             <Input
               id="title"
               label="Title"
@@ -181,6 +290,104 @@ class FeedEdit extends Component {
               touched={this.state.postForm['content'].touched}
               value={this.state.postForm['content'].value}
             />
+            <div>
+              <Input
+                id="taken_date"
+                label="taken_date"
+                control="input"
+                onChange={this.postInputChangeHandler}
+                onBlur={this.inputBlurHandler.bind(this, 'taken_date')}
+                valid={this.state.postForm['taken_date'].valid}
+                touched={this.state.postForm['taken_date'].touched}
+                value={this.state.postForm['taken_date'].value}
+              />
+              <Input
+                id="location"
+                label="location"
+                control="input"
+                onChange={this.postInputChangeHandler}
+                onBlur={this.inputBlurHandler.bind(this, 'location')}
+                valid={this.state.postForm['location'].valid}
+                touched={this.state.postForm['location'].touched}
+                value={this.state.postForm['location'].value}
+              />
+            </div>
+            <div>
+              <Input
+                id="ISO"
+                label="ISO"
+                control="input"
+                onChange={this.postInputChangeHandler}
+                onBlur={this.inputBlurHandler.bind(this, 'ISO')}
+                valid={this.state.postForm['ISO'].valid}
+                touched={this.state.postForm['ISO'].touched}
+                value={this.state.postForm['ISO'].value}
+              />
+              <Input
+                id="shutter_speed"
+                label="shutter_speed"
+                control="input"
+                onChange={this.postInputChangeHandler}
+                onBlur={this.inputBlurHandler.bind(this, 'shutter_speed')}
+                valid={this.state.postForm['shutter_speed'].valid}
+                touched={this.state.postForm['shutter_speed'].touched}
+                value={this.state.postForm['shutter_speed'].value}
+              />
+              <Input
+                id="aperture"
+                label="aperture"
+                control="input"
+                onChange={this.postInputChangeHandler}
+                onBlur={this.inputBlurHandler.bind(this, 'aperture')}
+                valid={this.state.postForm['aperture'].valid}
+                touched={this.state.postForm['aperture'].touched}
+                value={this.state.postForm['aperture'].value}
+              />
+            </div>
+            <div>
+              <Input
+                id="camera"
+                label="camera"
+                control="input"
+                onChange={this.postInputChangeHandler}
+                onBlur={this.inputBlurHandler.bind(this, 'camera')}
+                valid={this.state.postForm['camera'].valid}
+                touched={this.state.postForm['camera'].touched}
+                value={this.state.postForm['camera'].value}
+              />
+              <Input
+                id="lens"
+                label="lens"
+                control="input"
+                onChange={this.postInputChangeHandler}
+                onBlur={this.inputBlurHandler.bind(this, 'lens')}
+                valid={this.state.postForm['lens'].valid}
+                touched={this.state.postForm['lens'].touched}
+                value={this.state.postForm['lens'].value}
+              />
+            </div>
+            <div>
+              <Input
+                id="equipment"
+                label="equipment"
+                control="input"
+                onChange={this.postInputChangeHandler}
+                onBlur={this.inputBlurHandler.bind(this, 'equipment')}
+                valid={this.state.postForm['equipment'].valid}
+                touched={this.state.postForm['equipment'].touched}
+                value={this.state.postForm['equipment'].value}
+              />
+              <Input
+                id="edit_soft"
+                label="edit_soft"
+                control="input"
+                onChange={this.postInputChangeHandler}
+                onBlur={this.inputBlurHandler.bind(this, 'edit_soft')}
+                valid={this.state.postForm['edit_soft'].valid}
+                touched={this.state.postForm['edit_soft'].touched}
+                value={this.state.postForm['edit_soft'].value}
+              />
+            </div>
           </form>
         </Modal>
       </Fragment>

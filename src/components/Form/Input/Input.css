@@ -9,8 +9,7 @@
   margin-bottom: 0.25rem;
 }
 
-.input input,
-.input textarea {
+.input input,.input textarea {
   display: block;
   font: inherit;
   padding: 0.25rem 0.5rem;

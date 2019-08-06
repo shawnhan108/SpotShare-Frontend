@@ -9,6 +9,9 @@ const post = props => (
       <h3 className="post__meta">
         Posted by {props.author} on {props.date}
       </h3>
+      <h3 className="post__infos">
+        Shot at {props.location} on {props.taken_date}
+      </h3>
       <h1 className="post__title">{props.title}</h1>
     </header>
     

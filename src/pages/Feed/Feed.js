@@ -171,6 +171,15 @@ class Feed extends Component {
     formData.append('title', postData.title);
     formData.append('content', postData.content);
     formData.append('image', postData.image);
+    formData.append('taken_date', postData.taken_date);
+    formData.append('location', postData.location);
+    formData.append('ISO', postData.ISO);
+    formData.append('shutter_speed', postData.shutter_speed);
+    formData.append('aperture', postData.aperture);
+    formData.append('camera', postData.camera);
+    formData.append('lens', postData.lens);
+    formData.append('equipment', postData.equipment);
+    formData.append('edit_soft', postData.edit_soft);
     let url = 'http://localhost:8080/feed/posts';
     let method = 'POST';
     if (this.state.editPost) {
@@ -197,6 +206,15 @@ class Feed extends Component {
           _id: resData.post._id,
           title: resData.post.title,
           content: resData.post.content,
+          taken_date: resData.post.taken_date,
+          location: resData.post.location,
+          ISO: resData.post.ISO,
+          shutter_speed: resData.post.shutter_speed,
+          aperture: resData.post.aperture,
+          camera: resData.post.camera,
+          lens: resData.post.lens,
+          equipment: resData.post.equipment,
+          edit_soft: resData.post.edit_soft,
           creator: resData.post.creator,
           createdAt: resData.post.createdAt
         };
@@ -314,6 +332,15 @@ class Feed extends Component {
                   title={post.title}
                   image={post.imageUrl}
                   content={post.content}
+                  taken_date={post.taken_date}
+                  location={post.location}
+                  ISO={post.ISO}
+                  shutter_speed={post.shutter_speed}
+                  aperture={post.aperture}
+                  camera={post.camera}
+                  lens={post.lens}
+                  equipment={post.equipment}
+                  edit_soft={post.edit_soft}
                   onStartEdit={this.startEditPostHandler.bind(this, post._id)}
                   onDelete={this.deletePostHandler.bind(this, post._id)}
                 />
