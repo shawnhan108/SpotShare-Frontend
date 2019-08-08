@@ -1,11 +1,12 @@
 import React from 'react';
 
 import './Input.css';
+import {Form} from 'react-bootstrap';
 
 const filePicker = props => (
   <div className="input">
-    <label htmlFor={props.id}>{props.label}</label>
-    <input
+    <Form.Label htmlFor={props.id}>{props.label}</Form.Label>
+    <Form.Control
       className={[
         !props.valid ? 'invalid' : 'valid',
         props.touched ? 'touched' : 'untouched'

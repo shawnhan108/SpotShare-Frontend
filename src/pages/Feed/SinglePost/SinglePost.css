@@ -5,21 +5,44 @@
   color: #3b0062;
 }
 
-.single-post h2 {
+.Row {
+  padding: 1rem;
+}
+
+.Container{
+  padding: 1rem;
+}
+
+.single-post-center{
   font-size: 1rem;
   color: #464646;
+  text-align: center;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #464646;
+}
+
+.hr{
+  border-top: .1rem solid black;
+}
+.single_post_normal_h2{
+  font-size: 1rem;
+  color: #464646;
+  text-align: left;
+  padding-bottom: 1rem;
 }
 
 .single-post__image {
-  height: 20rem;
-  width: 20rem;
+  display: block;
+  height: 40rem;
+  width: 100%;
   margin: 1rem auto;
 }
 
 @media (min-width: 768px) {
   .single-post {
-    width: 40rem;
+    width: 70rem;
+  }
+  .single-post__info{
+    width: 55rem;
+    display: inline-block
   }
 }

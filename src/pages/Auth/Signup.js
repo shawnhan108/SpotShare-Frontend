@@ -4,6 +4,8 @@ import Input from '../../components/Form/Input/Input';
 import Button from '../../components/Button/Button';
 import { required, length, email } from '../../util/validators';
 import Auth from './Auth';
+import './Auth.css';
+import { Form } from 'react-bootstrap';
 
 class Signup extends Component {
   state = {
@@ -72,10 +74,11 @@ class Signup extends Component {
   render() {
     return (
       <Auth>
-        <form onSubmit={e => this.props.onSignup(e, this.state)}>
+        <Form onSubmit={e => this.props.onSignup(e, this.state)}>
+        <div className="login_input">
           <Input
             id="email"
-            label="Your E-Mail"
+            label="Email"
             type="email"
             control="input"
             onChange={this.inputChangeHandler}
@@ -83,10 +86,16 @@ class Signup extends Component {
             value={this.state.signupForm['email'].value}
             valid={this.state.signupForm['email'].valid}
             touched={this.state.signupForm['email'].touched}
+            placeholder="username@example.ca"
           />
+          <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+          </Form.Text>
+        </div>
+        <div className="login_input">
           <Input
             id="name"
-            label="Your Name"
+            label="Full Name"
             type="text"
             control="input"
             onChange={this.inputChangeHandler}
@@ -94,7 +103,10 @@ class Signup extends Component {
             value={this.state.signupForm['name'].value}
             valid={this.state.signupForm['name'].valid}
             touched={this.state.signupForm['name'].touched}
+            placeholder="John Smith"
           />
+        </div>
+        <div className="login_input">
           <Input
             id="password"
             label="Password"
@@ -106,10 +118,13 @@ class Signup extends Component {
             valid={this.state.signupForm['password'].valid}
             touched={this.state.signupForm['password'].touched}
           />
+        </div>
+        <div className="login_input">
           <Button design="raised" type="submit" loading={this.props.loading}>
             Signup
           </Button>
-        </form>
+          </div>
+        </Form>
       </Auth>
     );
   }

@@ -5,6 +5,11 @@
     border: 1px solid #3b0062;
     border-radius: 5px;
   }
+
+.login_input{
+  padding-bottom: 5px;
+  padding-top: 5px
+}
   
   @media (min-width: 768px) {
     .auth-form {

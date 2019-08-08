@@ -1,12 +1,13 @@
 import React from 'react';
+import {Form} from 'react-bootstrap';
 
 import './Input.css';
 
 const input = props => (
   <div className="input">
-    {props.label && <label htmlFor={props.id}>{props.label}</label>}
+    {props.label && <Form.Label htmlFor={props.id}>{props.label}</Form.Label>}
     {props.control === 'input' && (
-      <input
+      <Form.Control
         className={[
           !props.valid ? 'invalid' : 'valid',
           props.touched ? 'touched' : 'untouched'

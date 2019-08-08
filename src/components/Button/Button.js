@@ -2,10 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import './Button.css';
+import { Button } from 'react-bootstrap';
 
 const button = props =>
   !props.link ? (
-    <button
+    <Button
+      variant="outline-dark"
       className={[
         'button',
         `button--${props.design}`,
@@ -16,18 +18,20 @@ const button = props =>
       type={props.type}
     >
       {props.loading ? 'Loading...' : props.children}
-    </button>
+    </Button>
   ) : (
-    <Link
-      className={[
-        'button',
-        `button--${props.design}`,
-        `button--${props.mode}`
-      ].join(' ')}
-      to={props.link}
-    >
-      {props.children}
-    </Link>
-  );
+      <Link to={props.link}>
+        <Button
+          variant="outline-dark"
+          className={[
+            'button',
+            `button--${props.design}`,
+            `button--${props.mode}`
+          ].join(' ')}>
+          {props.children}
+        </Button>
+
+      </Link>
+    );
 
 export default button;

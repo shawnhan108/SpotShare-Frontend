@@ -5,14 +5,26 @@
   padding: 0.5rem;
 }
 
+hr {
+  width: 60%;
+  border-top: .1rem solid black;
+}
+
 .post__meta {
   font-size: 1rem;
   color: #707070;
   margin: 0;
 }
 
+.post__infos{
+  font-size: 1.3rem;
+  text-align: center;
+  color: #707070;
+  margin: 20px;
+}
+
 .post__title {
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin: 1rem 0;
   color: #3b0062;
 }
@@ -24,12 +36,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden
+  overflow: hidden;
+  padding-bottom: 1rem;
 }
 
 .post_img {
-  border: 10px solid #000000;
-  border-radius: 4px;
+  border: 5px solid #000000;
+  border-radius: 3px;
   height: auto;
   width: auto;
   flex-shrink: 0;
@@ -37,8 +50,13 @@
   max-height: 40rem;
 }
 
-.post__actions {
-  text-align: right;
+.buttonbar{
+  text-align: center;
+  width: 15rem;
+}
+.button-pad{
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
 }
 
 @media (min-width: 768px) {

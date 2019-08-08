@@ -1,11 +1,4 @@
 .modal {
-  position: fixed;
-  width: 90%;
-  left: 5%;
-  top: 20vh;
-  background: white;
-  border-radius: 5px;
-  z-index: 200;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
 
@@ -20,7 +13,8 @@
 }
 
 .modal__content {
-  padding: 1rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
 }
 
 .modal__actions {
@@ -32,9 +26,6 @@
   margin: 0 0.5rem;
 }
 
-@media (min-width: 768px) {
-  .modal {
-    width: 40rem;
-    left: calc((100% - 40rem) / 2);
-  }
+.modal-backdrop {
+  z-index: -1;
 }
