@@ -248,7 +248,7 @@ class FeedEdit extends Component {
     return this.props.editing ? (
       <Fragment>
         <Backdrop onClick={this.cancelPostChangeHandler} />
-        
+
         <Modalmodel
           title="New Post"
           acceptEnabled={this.state.formIsValid}
@@ -324,10 +324,15 @@ class FeedEdit extends Component {
                 value={this.state.postForm['location'].value}
               />
             </div>
-            <div className="map-div">
+            <div className="map-div" style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
               <Mapp
                 width="450px"
                 height="250px"
+                inputval={this.state.postForm['location'].value}
               />
             </div>
             <div className="input-padding">

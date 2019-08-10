@@ -8,8 +8,6 @@ import Mapp from '../../Map/map';
 const post = props => (
   <article className="post">
     <header className="post__header">
-
-
       <h1 className="post__title text-center">{props.title}</h1>
       <hr></hr>
       <h3 className="post__infos">
@@ -19,11 +17,15 @@ const post = props => (
     <div className="post__image">
       <img className="post_img" src={'http://localhost:8080/' + props.image} />
     </div>
-    <div className="map-div">
-              <Mapp
-                width="650px"
-                height="500px"
-              />
+    <div className="map-div" style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      <Mapp
+        width="1100px"
+        height="250px"
+      />
     </div>
     <Container className="text-center buttonbar">
       <Row className="text-center">
