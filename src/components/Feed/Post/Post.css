@@ -67,3 +67,8 @@ hr {
     margin-right: auto;
   }
 }
+
+.map-div{
+  width: 650px;
+  height: 500px;
+}

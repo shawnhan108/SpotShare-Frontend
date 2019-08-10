@@ -7,8 +7,9 @@ import FilePicker from '../../Form/Input/FilePicker';
 import Image from '../../Image/Image';
 import { required, length } from '../../../util/validators';
 import { generateBase64FromImage } from '../../../util/image';
-import {Form, Row, Col} from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 import './FeedEdit.css';
+import Mapp from '../../Map/map';
 
 const POST_FORM = {
   title: {
@@ -247,6 +248,7 @@ class FeedEdit extends Component {
     return this.props.editing ? (
       <Fragment>
         <Backdrop onClick={this.cancelPostChangeHandler} />
+        
         <Modalmodel
           title="New Post"
           acceptEnabled={this.state.formIsValid}
@@ -254,50 +256,51 @@ class FeedEdit extends Component {
           onAcceptModal={this.acceptPostChangeHandler}
           isLoading={this.props.loading}
         >
-        <Form>
-          <div className="input-padding">
-            <Input
-              id="title"
-              label="Title"
-              control="input"
-              onChange={this.postInputChangeHandler}
-              onBlur={this.inputBlurHandler.bind(this, 'title')}
-              valid={this.state.postForm['title'].valid}
-              touched={this.state.postForm['title'].touched}
-              value={this.state.postForm['title'].value}
-            />
-          </div>
-          <div className="input-padding">
-            <FilePicker
-              id="image"
-              label="Image"
-              control="input"
-              onChange={this.postInputChangeHandler}
-              onBlur={this.inputBlurHandler.bind(this, 'image')}
-              valid={this.state.postForm['image'].valid}
-              touched={this.state.postForm['image'].touched}
-            />
-            <div className="new-post__preview-image">
-              {!this.state.imagePreview && <p>Please choose an image.</p>}
-              {this.state.imagePreview && (
-                <Image imageUrl={this.state.imagePreview} contain left />
-              )}
+          <Form>
+            <div className="input-padding">
+              <Input
+                id="title"
+                label="Title"
+                control="input"
+                onChange={this.postInputChangeHandler}
+                onBlur={this.inputBlurHandler.bind(this, 'title')}
+                valid={this.state.postForm['title'].valid}
+                touched={this.state.postForm['title'].touched}
+                value={this.state.postForm['title'].value}
+              />
             </div>
-          </div>
-          <div className="input-padding">
-            <Input
-              id="content"
-              label="Content"
-              control="textarea"
-              rows="5"
-              onChange={this.postInputChangeHandler}
-              onBlur={this.inputBlurHandler.bind(this, 'content')}
-              valid={this.state.postForm['content'].valid}
-              touched={this.state.postForm['content'].touched}
-              value={this.state.postForm['content'].value}
-            />
-          
-          <div className="input-padding">
+            <div className="input-padding">
+              <FilePicker
+                id="image"
+                label="Image"
+                control="input"
+                onChange={this.postInputChangeHandler}
+                onBlur={this.inputBlurHandler.bind(this, 'image')}
+                valid={this.state.postForm['image'].valid}
+                touched={this.state.postForm['image'].touched}
+              />
+              <div className="new-post__preview-image">
+                {!this.state.imagePreview && <p>Please choose an image.</p>}
+                {this.state.imagePreview && (
+                  <Image imageUrl={this.state.imagePreview} contain left />
+                )}
+              </div>
+            </div>
+            <div className="input-padding">
+              <Input
+                id="content"
+                label="Content"
+                control="textarea"
+                rows="5"
+                onChange={this.postInputChangeHandler}
+                onBlur={this.inputBlurHandler.bind(this, 'content')}
+                valid={this.state.postForm['content'].valid}
+                touched={this.state.postForm['content'].touched}
+                value={this.state.postForm['content'].value}
+              />
+            </div>
+
+            <div className="input-padding">
               <Input
                 id="taken_date"
                 label="Date photo was taken"
@@ -308,8 +311,8 @@ class FeedEdit extends Component {
                 touched={this.state.postForm['taken_date'].touched}
                 value={this.state.postForm['taken_date'].value}
               />
-          </div>
-          <div className="input-padding">
+            </div>
+            <div className="input-padding">
               <Input
                 id="location"
                 label="Location"
@@ -321,46 +324,51 @@ class FeedEdit extends Component {
                 value={this.state.postForm['location'].value}
               />
             </div>
-          </div>
-          <div className="input-padding">
-            <Row>
-              <Col>
-                <Input
-                  id="ISO"
-                  label="ISO"
-                  control="input"
-                  onChange={this.postInputChangeHandler}
-                  onBlur={this.inputBlurHandler.bind(this, 'ISO')}
-                  valid={this.state.postForm['ISO'].valid}
-                  touched={this.state.postForm['ISO'].touched}
-                  value={this.state.postForm['ISO'].value}
-                />
-              </Col>
-              <Col>
-                <Input
-                  id="shutter_speed"
-                  label="Shutter Speed"
-                  control="input"
-                  onChange={this.postInputChangeHandler}
-                  onBlur={this.inputBlurHandler.bind(this, 'shutter_speed')}
-                  valid={this.state.postForm['shutter_speed'].valid}
-                  touched={this.state.postForm['shutter_speed'].touched}
-                  value={this.state.postForm['shutter_speed'].value}
-                />
-              </Col>
-              <Col>
-                <Input
-                  id="aperture"
-                  label="Aperture"
-                  control="input"
-                  onChange={this.postInputChangeHandler}
-                  onBlur={this.inputBlurHandler.bind(this, 'aperture')}
-                  valid={this.state.postForm['aperture'].valid}
-                  touched={this.state.postForm['aperture'].touched}
-                  value={this.state.postForm['aperture'].value}
-                />
-              </Col>
-            </Row> 
+            <div className="map-div">
+              <Mapp
+                width="450px"
+                height="250px"
+              />
+            </div>
+            <div className="input-padding">
+              <Row>
+                <Col>
+                  <Input
+                    id="ISO"
+                    label="ISO"
+                    control="input"
+                    onChange={this.postInputChangeHandler}
+                    onBlur={this.inputBlurHandler.bind(this, 'ISO')}
+                    valid={this.state.postForm['ISO'].valid}
+                    touched={this.state.postForm['ISO'].touched}
+                    value={this.state.postForm['ISO'].value}
+                  />
+                </Col>
+                <Col>
+                  <Input
+                    id="shutter_speed"
+                    label="Shutter Speed"
+                    control="input"
+                    onChange={this.postInputChangeHandler}
+                    onBlur={this.inputBlurHandler.bind(this, 'shutter_speed')}
+                    valid={this.state.postForm['shutter_speed'].valid}
+                    touched={this.state.postForm['shutter_speed'].touched}
+                    value={this.state.postForm['shutter_speed'].value}
+                  />
+                </Col>
+                <Col>
+                  <Input
+                    id="aperture"
+                    label="Aperture"
+                    control="input"
+                    onChange={this.postInputChangeHandler}
+                    onBlur={this.inputBlurHandler.bind(this, 'aperture')}
+                    valid={this.state.postForm['aperture'].valid}
+                    touched={this.state.postForm['aperture'].touched}
+                    value={this.state.postForm['aperture'].value}
+                  />
+                </Col>
+              </Row>
             </div>
             <div className="input-padding">
               <Input
@@ -412,8 +420,8 @@ class FeedEdit extends Component {
             </div>
           </Form>
         </Modalmodel>
-          
-        
+
+
       </Fragment>
     ) : null;
   }

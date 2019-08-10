@@ -2,7 +2,8 @@ import React from 'react';
 
 import Button from '../../Button/Button';
 import './Post.css';
-import { Container, Row, ButtonGroup } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
+import Mapp from '../../Map/map';
 
 const post = props => (
   <article className="post">
@@ -14,14 +15,16 @@ const post = props => (
       <h3 className="post__infos">
         Posted by {props.author} on {props.date} ||  Shot at {props.location} on {props.taken_date}
       </h3>
-
-
     </header>
-
     <div className="post__image">
       <img className="post_img" src={'http://localhost:8080/' + props.image} />
     </div>
-
+    <div className="map-div">
+              <Mapp
+                width="650px"
+                height="500px"
+              />
+    </div>
     <Container className="text-center buttonbar">
       <Row className="text-center">
         <div className="button-pad pull-right">
