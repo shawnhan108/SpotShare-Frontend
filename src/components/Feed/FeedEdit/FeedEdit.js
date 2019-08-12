@@ -37,7 +37,18 @@ const POST_FORM = {
     validators: [required]
   },
   location: {
-    value: '',
+    value: {
+      id: "",
+      type: "",
+      place_type: [],
+      relevance: 0,
+      properties: {},
+      text: "",
+      place_name: "",
+      center: [0, 0],
+      geometry: {},
+      context: []
+    },
     valid: false,
     touched: false,
     validators: [required]
@@ -199,6 +210,24 @@ class FeedEdit extends Component {
     });
   };
 
+  postLocationChangeHandler = (value) => {
+    this.setState(prevState => {
+      const updatedForm = {
+        ...prevState.postForm,
+        location: {
+          ...prevState.postForm.location,
+          valid: true,
+          value: value
+        }
+      };
+      console.log(updatedForm.location.value);
+      return {
+        postForm: updatedForm,
+        formIsValid: true
+      };
+    });
+  };
+
   inputBlurHandler = input => {
     this.setState(prevState => {
       return {
@@ -313,16 +342,16 @@ class FeedEdit extends Component {
               />
             </div>
             <div className="input-padding">
-              <Input
-                id="location"
-                label="Location"
-                control="input"
-                onChange={this.postInputChangeHandler}
-                onBlur={this.inputBlurHandler.bind(this, 'location')}
-                valid={this.state.postForm['location'].valid}
-                touched={this.state.postForm['location'].touched}
-                value={this.state.postForm['location'].value}
-              />
+              
+              <div>
+                <p>Location</p>
+                <div className="location-div">
+                  <p>{this.state.postForm['location'].value.text}</p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p>Please select a location: </p>
             </div>
             <div className="map-div" style={{
               display: 'flex',
@@ -330,9 +359,12 @@ class FeedEdit extends Component {
               justifyContent: 'center',
             }}>
               <Mapp
+                id="location"
                 width="450px"
                 height="250px"
-                inputval={this.state.postForm['location'].value}
+                inputval={this.state.postForm['location'].value.text}
+                value={this.state.postForm['location'].value}
+                onChange={this.postLocationChangeHandler}
               />
             </div>
             <div className="input-padding">

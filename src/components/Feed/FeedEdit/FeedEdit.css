@@ -12,3 +12,9 @@
   height: 300px;
   padding-top: 20px;
 }
+
+.location-div{
+  border-style: solid;
+  border-width: .1px;
+  border-color: #ededed;
+}

@@ -6,8 +6,7 @@ import { Modal } from 'react-bootstrap';
 
 const Modalmodel = props => {
 
-  const [show, setShow] = React.useState(false);
-  const handleClose = () => setShow(false);
+  const setShow = React.useState(false)[1];
   const handleShow = () => setShow(true);
   const showpair = true;
   return (

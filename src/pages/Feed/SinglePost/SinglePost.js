@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Image from '../../../components/Image/Image';
 import './SinglePost.css';
 import { Container, Row, Col } from 'react-bootstrap';
+import Mapp from '../../../components/Map/map';
 
 
 class SinglePost extends Component {
@@ -67,7 +68,7 @@ class SinglePost extends Component {
             <h2 className="single-post-center">
               Created by {this.state.author} on {this.state.date}
             </h2>
-            <h2 className="single-post-center">Shot at {this.state.location} on {this.state.taken_date}</h2>
+            <h2 className="single-post-center">Shot at {this.state.location.text} on {this.state.taken_date}</h2>
         </Container>
         <hr class="hr"></hr>
         <div className="single-post__image">
@@ -95,6 +96,13 @@ class SinglePost extends Component {
             </Row>
           </Container>
         </div>
+        <Mapp
+          id="location"
+          width="900px"
+          height="300px"
+          inputval={this.state.location.text}
+          value={this.state.location}
+        />
       </section>
     );
   }

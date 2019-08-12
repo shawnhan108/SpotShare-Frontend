@@ -173,7 +173,7 @@ class Feed extends Component {
     formData.append('content', postData.content);
     formData.append('image', postData.image);
     formData.append('taken_date', postData.taken_date);
-    formData.append('location', postData.location);
+    formData.append('location', JSON.stringify(postData.location));
     formData.append('ISO', postData.ISO);
     formData.append('shutter_speed', postData.shutter_speed);
     formData.append('aperture', postData.aperture);
@@ -181,6 +181,7 @@ class Feed extends Component {
     formData.append('lens', postData.lens);
     formData.append('equipment', postData.equipment);
     formData.append('edit_soft', postData.edit_soft);
+    
     let url = 'http://localhost:8080/feed/posts';
     let method = 'POST';
     if (this.state.editPost) {
