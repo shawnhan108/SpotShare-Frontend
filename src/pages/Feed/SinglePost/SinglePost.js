@@ -4,6 +4,7 @@ import Image from '../../../components/Image/Image';
 import './SinglePost.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import Mapp from '../../../components/View-map/view-map';
+import Loader from '../../../components/Loader/Loader';
 
 
 class SinglePost extends Component {
@@ -21,10 +22,11 @@ class SinglePost extends Component {
     camera: '',
     lens: '',
     equipment: '',
-    edit_soft: ''
+    edit_soft: '',
+    loading: 'true'
   };
 
-  componentDidMount() {
+  async componentWillMount() {
     const postId = this.props.match.params.postId;
     fetch('http://localhost:8080/feed/post/' + postId, {
       headers: {
@@ -53,6 +55,7 @@ class SinglePost extends Component {
           lens: resData.post.lens,
           equipment: resData.post.equipment,
           edit_soft: resData.post.edit_soft,
+          loading: 'false'
         });
       })
       .catch(err => {
@@ -61,6 +64,9 @@ class SinglePost extends Component {
   }
 
   render() {
+    if (this.state.loading === 'true'){
+      return <Loader />
+    }
     return (
       <section className="single-post">
         <h1>{this.state.title}</h1>
@@ -96,9 +102,16 @@ class SinglePost extends Component {
             </Row>
           </Container>
         </div>
-        <Mapp
-          text={this.state.location.text}
-        />
+        <div className="map-div" style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+          <Mapp
+            text={this.state.location.text}
+            value={this.state.location.center}
+          />
+        </div>
       </section>
     );
   }

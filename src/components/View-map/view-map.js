@@ -1,39 +1,30 @@
-import React, {Component} from 'react';
-import MapGL, {NavigationControl} from 'react-map-gl';
+import "mapbox-gl/dist/mapbox-gl.css";
+import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import React, { Component } from "react";
+import ReactMapGL from "react-map-gl";
 
-const TOKEN = "pk.eyJ1IjoieTI2MmhhbiIsImEiOiJjanozamU2bmkwMzJ5M2d0Nm84ZW5meHhzIn0.L1kW4Q7vNyX0fCJJEYI5PA";
-const navStyle = {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  padding: '10px'
-};
-export default class Map extends Component {
-constructor(props) {
-    super(props);
-    this.state = {
-      viewport: {
-        latitude: 37.785164,
-        longitude: -100,
-        zoom: 2.8,
-        bearing: 0,
-        pitch: 0,
-        width: 500,
-        height: 500,
+const MAPBOX_TOKEN = "pk.eyJ1IjoieTI2MmhhbiIsImEiOiJjanozamU2bmkwMzJ5M2d0Nm84ZW5meHhzIn0.L1kW4Q7vNyX0fCJJEYI5PA";
+
+class Mapp extends Component {
+    state = {
+        viewport: {
+          width: 650,
+          height: 350,
+          latitude: this.props.value[1],
+          longitude: this.props.value[0],
+          zoom: 8
+        }
+      };
+      render() {
+        return (
+          <ReactMapGL
+            {...this.state.viewport}
+            onViewportChange={(viewport) => this.setState({viewport})}
+            mapboxApiAccessToken={MAPBOX_TOKEN}
+            mapStyle='mapbox://styles/y262han/cjz3kx9a80fby1cr3d8oydttt'
+          />
+        );
       }
-    };
-  }
-render() {
-    const {viewport} = this.state;
-return (
-      <MapGL
-        {...viewport}
-        mapStyle="mapbox://styles/mapbox/dark-v9"
-        mapboxApiAccessToken={TOKEN}>
-        <div className="nav" style={navStyle}>
-          <NavigationControl/>
-        </div>
-      </MapGL>
-    );
-  }
-}
+    }
+
+export default Mapp;

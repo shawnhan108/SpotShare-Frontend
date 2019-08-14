@@ -10,9 +10,9 @@ const MAPBOX_TOKEN = "pk.eyJ1IjoieTI2MmhhbiIsImEiOiJjanozamU2bmkwMzJ5M2d0Nm84ZW5
 class Mapp extends Component {
     state = {
         viewport: {
-            latitude: 37.7577,
-            longitude: -122.4376,
-            zoom: 0
+            latitude: this.props.value.center[1],
+            longitude: this.props.value.center[0],
+            zoom: 8
         },
         searchResultLayer: null
     };
@@ -34,7 +34,6 @@ class Mapp extends Component {
     };
 
     handleOnResult = event => {
-        console.log(event.result);
         this.setState({
             searchResultLayer: new GeoJsonLayer({
                 id: "search-result",

@@ -10,6 +10,7 @@ import { generateBase64FromImage } from '../../../util/image';
 import { Form, Row, Col } from 'react-bootstrap';
 import './FeedEdit.css';
 import Mapp from '../../Map/map';
+import Loader from '../../Loader/Loader';
 
 const POST_FORM = {
   title: {
@@ -94,14 +95,15 @@ const POST_FORM = {
     valid: false,
     touched: false,
     validators: [required]
-  }
+  },
 };
 
 class FeedEdit extends Component {
   state = {
     postForm: POST_FORM,
     formIsValid: false,
-    imagePreview: null
+    imagePreview: null,
+    loading: 'true'
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -172,7 +174,7 @@ class FeedEdit extends Component {
           valid: true
         }
       };
-      this.setState({ postForm: postForm, formIsValid: true });
+      this.setState({ postForm: postForm, formIsValid: true, loading: 'false' });
     }
   }
 
@@ -220,7 +222,6 @@ class FeedEdit extends Component {
           value: value
         }
       };
-      console.log(updatedForm.location.value);
       return {
         postForm: updatedForm,
         formIsValid: true
@@ -274,10 +275,15 @@ class FeedEdit extends Component {
   };
 
   render() {
+    if (!this.props.editing){
+      return null;
+    }
+    if (this.state.loading === 'true'){
+      return <Loader />
+    }
     return this.props.editing ? (
       <Fragment>
         <Backdrop onClick={this.cancelPostChangeHandler} />
-
         <Modalmodel
           title="New Post"
           acceptEnabled={this.state.formIsValid}
@@ -457,8 +463,6 @@ class FeedEdit extends Component {
             </div>
           </Form>
         </Modalmodel>
-
-
       </Fragment>
     ) : null;
   }
