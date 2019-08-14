@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Image from '../../../components/Image/Image';
 import './SinglePost.css';
 import { Container, Row, Col } from 'react-bootstrap';
-import Mapp from '../../../components/Map/map';
+import Mapp from '../../../components/View-map/view-map';
 
 
 class SinglePost extends Component {
@@ -70,13 +70,13 @@ class SinglePost extends Component {
             </h2>
             <h2 className="single-post-center">Shot at {this.state.location.text} on {this.state.taken_date}</h2>
         </Container>
-        <hr class="hr"></hr>
+        <hr className="hr"></hr>
         <div className="single-post__image">
           <Image contain imageUrl={this.state.image} className="the_image"/>
         </div>
         <div className="single-post__info padding">
           <p>{this.state.content}</p>
-          <hr class="hr"></hr>
+          <hr className="hr"></hr>
           <Container>
             <Row>
               <Col><h2 className="single_post_normal_h2">ISO: {this.state.ISO}</h2></Col>
@@ -97,11 +97,7 @@ class SinglePost extends Component {
           </Container>
         </div>
         <Mapp
-          id="location"
-          width="900px"
-          height="300px"
-          inputval={this.state.location.text}
-          value={this.state.location}
+          text={this.state.location.text}
         />
       </section>
     );

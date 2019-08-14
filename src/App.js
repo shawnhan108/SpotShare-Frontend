@@ -8,6 +8,7 @@ import MainNavigation from './components/Navigation/MainNavigation/MainNavigatio
 import MobileNavigation from './components/Navigation/MobileNavigation/MobileNavigation';
 import ErrorHandler from './components/ErrorHandler/ErrorHandler';
 import FeedPage from './pages/Feed/Feed';
+import Profile from './pages/Profile/Profile';
 import SinglePostPage from './pages/Feed/SinglePost/SinglePost';
 import LoginPage from './pages/Auth/Login';
 import SignupPage from './pages/Auth/Signup';
@@ -182,12 +183,21 @@ class App extends Component {
             />
           )}
         />
+          )}
+        />
         <Redirect to="/" />
       </Switch>
     );
     if (this.state.isAuth) {
       routes = (
         <Switch>
+          <Route
+            path="/posts"
+            exact
+            render={props => (
+              <Profile userId={this.state.userId} token={this.state.token} />
+            )}
+          />
           <Route
             path="/"
             exact
@@ -205,6 +215,7 @@ class App extends Component {
               />
             )}
           />
+          
           <Redirect to="/" />
         </Switch>
       );
