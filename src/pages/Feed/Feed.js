@@ -188,7 +188,6 @@ class Feed extends Component {
       url = 'http://localhost:8080/feed/post/' + this.state.editPost._id;
       method = 'PUT';
     }
-
     fetch(url, {
       method: method,
       body: formData,
@@ -253,6 +252,34 @@ class Feed extends Component {
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error('Deleting a post failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        console.log(resData);
+        this.loadPosts();
+        // this.setState(prevState => {
+        //   const updatedPosts = prevState.posts.filter(p => p._id !== postId);
+        //   return { posts: updatedPosts, postsLoading: false };
+        // });
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ postsLoading: false });
+      });
+  };
+
+  bucketPostHandler = postId => {
+    this.setState({ postsLoading: true });
+    fetch('http://localhost:8080/auth/bucket/' + postId, {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + this.props.token
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Adding a post to bucket failed!');
         }
         return res.json();
       })
@@ -344,6 +371,7 @@ class Feed extends Component {
                   edit_soft={post.edit_soft}
                   onStartEdit={this.startEditPostHandler.bind(this, post._id)}
                   onDelete={this.deletePostHandler.bind(this, post._id)}
+                  onBucket={this.bucketPostHandler.bind(this, post._id)}
                 />
               ))}
             </Paginator>

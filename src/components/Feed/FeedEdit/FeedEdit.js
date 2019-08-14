@@ -246,7 +246,8 @@ class FeedEdit extends Component {
   cancelPostChangeHandler = () => {
     this.setState({
       postForm: POST_FORM,
-      formIsValid: false
+      formIsValid: false,
+      loading: 'true'
     });
     this.props.onCancelEdit();
   };
@@ -270,7 +271,8 @@ class FeedEdit extends Component {
     this.setState({
       postForm: POST_FORM,
       formIsValid: false,
-      imagePreview: null
+      imagePreview: null, 
+      loading: 'true'
     });
   };
 

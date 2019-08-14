@@ -30,6 +30,11 @@ const post = props => (
         </Button>
         </div>
         <div className="button-pad">
+          <Button mode="flat" design="danger" colorChange="colorChange" onClick={props.onBucket}>
+            Bucket!
+        </Button>
+        </div>
+        <div className="button-pad">
           <Button mode="flat" design="danger" onClick={props.onDelete}>
             Delete
         </Button>

@@ -11,7 +11,8 @@ const button = props =>
       className={[
         'button',
         `button--${props.design}`,
-        `button--${props.mode}`
+        `button--${props.mode}`,
+        `button--${props.colorChange}`
       ].join(' ')}
       onClick={props.onClick}
       disabled={props.disabled || props.loading}
@@ -26,7 +27,8 @@ const button = props =>
           className={[
             'button',
             `button--${props.design}`,
-            `button--${props.mode}`
+            `button--${props.mode}`,
+            `button--${props.colorChange}`
           ].join(' ')}>
           {props.children}
         </Button>

@@ -44,6 +44,12 @@
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.26);
 }
 
+.button--flat.button--colorChange:focus,
+.button--flat.button--colorChange:hover {
+  background: #c00000;
+  color: #c00000;
+}
+
 .button--raised:hover,
 .button--raised:active {
   background: #520288;
