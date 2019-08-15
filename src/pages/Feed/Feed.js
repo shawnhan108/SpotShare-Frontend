@@ -9,7 +9,6 @@ import Paginator from '../../components/Paginator/Paginator';
 import Loader from '../../components/Loader/Loader';
 import ErrorHandler from '../../components/ErrorHandler/ErrorHandler';
 import './Feed.css';
-import { arrayExpression } from '@babel/types';
 
 class Feed extends Component {
   state = {
@@ -376,11 +375,6 @@ class Feed extends Component {
               Update
             </Button>
           </form>
-        </section>
-        <section className="feed__control">
-          <Button mode="raised" design="accent" onClick={this.newPostHandler}>
-            New Post
-          </Button>
         </section>
         <section className="feed">
           {this.state.postsLoading && (

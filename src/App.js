@@ -9,6 +9,7 @@ import MobileNavigation from './components/Navigation/MobileNavigation/MobileNav
 import ErrorHandler from './components/ErrorHandler/ErrorHandler';
 import FeedPage from './pages/Feed/Feed';
 import Profile from './pages/Profile/Profile';
+import Bucket from './pages/Bucket/Bucket';
 import SinglePostPage from './pages/Feed/SinglePost/SinglePost';
 import LoginPage from './pages/Auth/Login';
 import SignupPage from './pages/Auth/Signup';
@@ -195,6 +196,13 @@ class App extends Component {
             exact
             render={props => (
               <Profile userId={this.state.userId} token={this.state.token} />
+            )}
+          />
+          <Route
+            path="/my-bucket"
+            exact
+            render={props => (
+              <Bucket userId={this.state.userId} token={this.state.token} />
             )}
           />
           <Route

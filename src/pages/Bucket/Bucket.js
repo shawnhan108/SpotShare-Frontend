@@ -8,7 +8,7 @@ import Input from '../../components/Form/Input/Input';
 import Paginator from '../../components/Paginator/Paginator';
 import Loader from '../../components/Loader/Loader';
 import ErrorHandler from '../../components/ErrorHandler/ErrorHandler';
-import './Profile.css';
+import './Bucket.css';
 
 class Feed extends Component {
   state = {
@@ -128,10 +128,11 @@ class Feed extends Component {
         return res.json();
       })
       .then(resData => {
+        console.log(resData);
         return {
             ...resData,
             posts: resData.posts.filter(
-                post => this.props.userId === post.creator._id
+                post => this.state.bucket.includes(post._id)
               )
         }
     })
@@ -368,11 +369,6 @@ class Feed extends Component {
               Update
             </Button>
           </form>
-        </section>
-        <section className="feed__control">
-          <Button mode="raised" design="accent" onClick={this.newPostHandler}>
-            New Post
-          </Button>
         </section>
         <section className="feed">
           {this.state.postsLoading && (
