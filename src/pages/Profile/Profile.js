@@ -19,7 +19,8 @@ class Feed extends Component {
     status: '',
     postPage: 1,
     postsLoading: true,
-    editLoading: false
+    editLoading: false,
+    bucket:[]
   };
 
   componentDidMount() {
@@ -172,6 +173,62 @@ class Feed extends Component {
     this.setState({ isEditing: false, editPost: null });
   };
 
+  bucketPostHandler = postId => {
+    this.setState({ postsLoading: true });
+    fetch('http://localhost:8080/auth/bucket/' + postId, {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + this.props.token
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Adding a post to bucket failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        console.log(resData);
+        this.loadPosts();
+        this.state.bucket.push(postId);
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ 
+          postsLoading: false
+         });
+      });
+  };
+
+  bucketRemoveHandler = postId => {
+    this.setState({ postsLoading: true });
+    fetch('http://localhost:8080/auth/bucket/' + postId, {
+      method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + this.props.token
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Deleting a post from bucket failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        console.log(resData);
+        this.loadPosts();
+        for (var i = 0; i < this.state.bucket.length; i++){
+          if (this.state.bucket[i] === postId){
+            this.state.bucket.splice(i, 1);
+          }
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ postsLoading: false });
+      });
+  };
+
   finishEditHandler = postData => {
     this.setState({
       editLoading: true
@@ -212,22 +269,6 @@ class Feed extends Component {
       })
       .then(resData => {
         console.log(resData);
-        const post = {
-          _id: resData.post._id,
-          title: resData.post.title,
-          content: resData.post.content,
-          taken_date: resData.post.taken_date,
-          location: resData.post.location,
-          ISO: resData.post.ISO,
-          shutter_speed: resData.post.shutter_speed,
-          aperture: resData.post.aperture,
-          camera: resData.post.camera,
-          lens: resData.post.lens,
-          equipment: resData.post.equipment,
-          edit_soft: resData.post.edit_soft,
-          creator: resData.post.creator,
-          createdAt: resData.post.createdAt
-        };
         this.setState(prevState => {
           return {
             isEditing: false,
@@ -268,10 +309,6 @@ class Feed extends Component {
       .then(resData => {
         console.log(resData);
         this.loadPosts();
-        // this.setState(prevState => {
-        //   const updatedPosts = prevState.posts.filter(p => p._id !== postId);
-        //   return { posts: updatedPosts, postsLoading: false };
-        // });
       })
       .catch(err => {
         console.log(err);
@@ -353,6 +390,9 @@ class Feed extends Component {
                   edit_soft={post.edit_soft}
                   onStartEdit={this.startEditPostHandler.bind(this, post._id)}
                   onDelete={this.deletePostHandler.bind(this, post._id)}
+                  onBucket={this.bucketPostHandler.bind(this, post._id)}
+                  offBucket={this.bucketRemoveHandler.bind(this, post._id)}
+                  userBucket={this.state.bucket}
                 />
               ))}
             </Paginator>

@@ -9,6 +9,7 @@ import Paginator from '../../components/Paginator/Paginator';
 import Loader from '../../components/Loader/Loader';
 import ErrorHandler from '../../components/ErrorHandler/ErrorHandler';
 import './Feed.css';
+import { arrayExpression } from '@babel/types';
 
 class Feed extends Component {
   state = {
@@ -19,7 +20,8 @@ class Feed extends Component {
     status: '',
     postPage: 1,
     postsLoading: true,
-    editLoading: false
+    editLoading: false,
+    bucket:[]
   };
 
   componentDidMount() {
@@ -35,10 +37,31 @@ class Feed extends Component {
         return res.json();
       })
       .then(resData => {
-        this.setState({ 
-          status: resData.status });
+        this.setState({
+          status: resData.status
+        });
       })
       .catch(this.catchError);
+    
+    fetch('http://localhost:8080/auth/bucket', {
+      headers: {
+        Authorization: 'Bearer ' + this.props.token
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Fetching bucket posts failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        this.setState({
+          bucket: resData.bucket
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
     this.loadPosts();
     const socket = openSocket('http://localhost:8080');
@@ -181,7 +204,7 @@ class Feed extends Component {
     formData.append('lens', postData.lens);
     formData.append('equipment', postData.equipment);
     formData.append('edit_soft', postData.edit_soft);
-    
+
     let url = 'http://localhost:8080/feed/posts';
     let method = 'POST';
     if (this.state.editPost) {
@@ -258,10 +281,6 @@ class Feed extends Component {
       .then(resData => {
         console.log(resData);
         this.loadPosts();
-        // this.setState(prevState => {
-        //   const updatedPosts = prevState.posts.filter(p => p._id !== postId);
-        //   return { posts: updatedPosts, postsLoading: false };
-        // });
       })
       .catch(err => {
         console.log(err);
@@ -286,10 +305,38 @@ class Feed extends Component {
       .then(resData => {
         console.log(resData);
         this.loadPosts();
-        // this.setState(prevState => {
-        //   const updatedPosts = prevState.posts.filter(p => p._id !== postId);
-        //   return { posts: updatedPosts, postsLoading: false };
-        // });
+        this.state.bucket.push(postId);
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ 
+          postsLoading: false
+         });
+      });
+  };
+
+  bucketRemoveHandler = postId => {
+    this.setState({ postsLoading: true });
+    fetch('http://localhost:8080/auth/bucket/' + postId, {
+      method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + this.props.token
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Deleting a post from bucket failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        console.log(resData);
+        this.loadPosts();
+        for (var i = 0; i < this.state.bucket.length; i++){
+          if (this.state.bucket[i] === postId){
+            this.state.bucket.splice(i, 1);
+          }
+        }
       })
       .catch(err => {
         console.log(err);
@@ -372,6 +419,8 @@ class Feed extends Component {
                   onStartEdit={this.startEditPostHandler.bind(this, post._id)}
                   onDelete={this.deletePostHandler.bind(this, post._id)}
                   onBucket={this.bucketPostHandler.bind(this, post._id)}
+                  offBucket={this.bucketRemoveHandler.bind(this, post._id)}
+                  userBucket={this.state.bucket}
                 />
               ))}
             </Paginator>
