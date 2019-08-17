@@ -7,6 +7,27 @@ import NavigationItems from '../NavigationItems/NavigationItems';
 
 import './MainNavigation.css';
 
+function getUserName (userId, token) {
+  fetch('http://localhost:8080/auth/user' + userId, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+    .then(res => {
+      if (res.status !== 200 && res.status !== 201) {
+        throw new Error('Fetching user name failed!');
+      }
+      return res.json();
+    })
+    .then(resData => {
+      console.log(resData);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
 const mainNavigation = props => (
   <nav className="main-nav">
     <MobileToggle onOpen={props.onOpenMobileNav} />
@@ -16,7 +37,6 @@ const mainNavigation = props => (
       </NavLink>
     </div>
     <div>
-      <p></p>
     </div>
     <div className="spacer" />
     <ul className="main-nav__items">

@@ -280,7 +280,6 @@ class FeedEdit extends Component {
     if (!this.props.editing){
       return null;
     }
-    console.log('here');
     if (this.state.loading === 'true' && (!this.props.isNewPost)){
       return <Loader />
     }

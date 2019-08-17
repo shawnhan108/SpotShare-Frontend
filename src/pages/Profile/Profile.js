@@ -54,6 +54,7 @@ class Feed extends Component {
           return res.json();
         })
         .then(resData => {
+          console.log(resData);
           this.setState({
             bucket: resData.bucket
           });

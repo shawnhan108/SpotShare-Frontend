@@ -9,6 +9,7 @@ import MobileNavigation from './components/Navigation/MobileNavigation/MobileNav
 import ErrorHandler from './components/ErrorHandler/ErrorHandler';
 import FeedPage from './pages/Feed/Feed';
 import Profile from './pages/Profile/Profile';
+import Map from './pages/Map/Map';
 import Bucket from './pages/Bucket/Bucket';
 import SinglePostPage from './pages/Feed/SinglePost/SinglePost';
 import LoginPage from './pages/Auth/Login';
@@ -22,6 +23,7 @@ class App extends Component {
     isAuth: false,
     token: null,
     userId: null,
+    username: null,
     authLoading: false,
     error: null
   };
@@ -107,28 +109,7 @@ class App extends Component {
       });
   };
 
-  findUserName = (userId) => {
-    this.setState({ authLoading: true });
-    fetch('http://localhost:8080/auth/user' + userId, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + this.state.token
-      }
-    })
-    .then(res => {
-      if (res.status !== 200 && res.status !== 201) {
-        throw new Error('Fetching user name failed!');
-      }
-      return res.json();
-    })
-    .then(resData => {
-      console.log(resData);
-    })
-    .catch(err => {
-      console.log(err);
-      this.setState({ postsLoading: false });
-    });
-  }
+
 
   signupHandler = (event, authData) => {
     event.preventDefault();
@@ -230,6 +211,13 @@ class App extends Component {
             )}
           />
           <Route
+            path="/my-map"
+            exact
+            render={props => (
+              <Map userId={this.state.userId} token={this.state.token} />
+            )}
+          />
+          <Route
             path="/"
             exact
             render={props => (
@@ -265,6 +253,7 @@ class App extends Component {
                 onLogout={this.logoutHandler}
                 isAuth={this.state.isAuth}
                 userID={this.state.userId}
+                token={this.state.token}
               />
             </Toolbar>
           }

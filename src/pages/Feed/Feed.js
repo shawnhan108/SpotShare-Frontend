@@ -224,22 +224,6 @@ class Feed extends Component {
         return res.json();
       })
       .then(resData => {
-        const post = {
-          _id: resData.post._id,
-          title: resData.post.title,
-          content: resData.post.content,
-          taken_date: resData.post.taken_date,
-          location: resData.post.location,
-          ISO: resData.post.ISO,
-          shutter_speed: resData.post.shutter_speed,
-          aperture: resData.post.aperture,
-          camera: resData.post.camera,
-          lens: resData.post.lens,
-          equipment: resData.post.equipment,
-          edit_soft: resData.post.edit_soft,
-          creator: resData.post.creator,
-          createdAt: resData.post.createdAt
-        };
         this.setState(prevState => {
           return {
             isEditing: false,

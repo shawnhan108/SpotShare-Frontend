@@ -32,7 +32,6 @@ const button = props =>
           ].join(' ')}>
           {props.children}
         </Button>
-
       </Link>
     );
 

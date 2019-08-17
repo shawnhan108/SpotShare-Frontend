@@ -7,6 +7,7 @@ const navItems = [
   { id: 'feed', text: 'Feed', link: '/', auth: true },
   { id: 'my-profile', text: 'My Profile', link: '/posts', auth: true},
   { id: 'my-bucket', text: 'My Bucket', link: '/my-bucket', auth: true},
+  { id: 'my-map', text: 'My Map', link: '/my-map', auth: true},
   { id: 'login', text: 'Login', link: '/', auth: false },
   { id: 'signup', text: 'Signup', link: '/signup', auth: false }
 ];
