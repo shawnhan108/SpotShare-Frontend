@@ -20,7 +20,8 @@ class Feed extends Component {
     postPage: 1,
     postsLoading: true,
     editLoading: false,
-    bucket:[]
+    bucket:[],
+    isNewPost: false
   };
 
   componentDidMount() {
@@ -175,7 +176,9 @@ class Feed extends Component {
   };
 
   newPostHandler = () => {
-    this.setState({ isEditing: true });
+    this.setState({ 
+      isNewPost: true,
+      isEditing: true });
   };
 
   startEditPostHandler = postId => {
@@ -354,6 +357,7 @@ class Feed extends Component {
           loading={this.state.editLoading}
           onCancelEdit={this.cancelEditHandler}
           onFinishEdit={this.finishEditHandler}
+          isNewPost={this.state.isNewPost}
         />
         <section className="feed__status">
           <form onSubmit={this.statusUpdateHandler}>

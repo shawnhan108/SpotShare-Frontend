@@ -107,6 +107,29 @@ class App extends Component {
       });
   };
 
+  findUserName = (userId) => {
+    this.setState({ authLoading: true });
+    fetch('http://localhost:8080/auth/user' + userId, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + this.state.token
+      }
+    })
+    .then(res => {
+      if (res.status !== 200 && res.status !== 201) {
+        throw new Error('Fetching user name failed!');
+      }
+      return res.json();
+    })
+    .then(resData => {
+      console.log(resData);
+    })
+    .catch(err => {
+      console.log(err);
+      this.setState({ postsLoading: false });
+    });
+  }
+
   signupHandler = (event, authData) => {
     event.preventDefault();
     this.setState({ authLoading: true });
@@ -159,6 +182,7 @@ class App extends Component {
   };
 
   render() {
+    
     let routes = (
       <Switch>
         <Route
@@ -240,6 +264,7 @@ class App extends Component {
                 onOpenMobileNav={this.mobileNavHandler.bind(this, true)}
                 onLogout={this.logoutHandler}
                 isAuth={this.state.isAuth}
+                userID={this.state.userId}
               />
             </Toolbar>
           }
@@ -250,6 +275,7 @@ class App extends Component {
               onChooseItem={this.mobileNavHandler.bind(this, false)}
               onLogout={this.logoutHandler}
               isAuth={this.state.isAuth}
+              userID={this.state.userId}
             />
           }
         />

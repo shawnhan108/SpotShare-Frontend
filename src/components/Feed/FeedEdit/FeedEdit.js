@@ -46,7 +46,7 @@ const POST_FORM = {
       properties: {},
       text: "",
       place_name: "",
-      center: [0, 0],
+      center: [-75.69, 45.421],
       geometry: {},
       context: []
     },
@@ -280,7 +280,8 @@ class FeedEdit extends Component {
     if (!this.props.editing){
       return null;
     }
-    if (this.state.loading === 'true'){
+    console.log('here');
+    if (this.state.loading === 'true' && (!this.props.isNewPost)){
       return <Loader />
     }
     return this.props.editing ? (

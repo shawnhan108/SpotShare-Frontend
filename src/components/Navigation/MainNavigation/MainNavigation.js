@@ -15,6 +15,9 @@ const mainNavigation = props => (
         <Logo />
       </NavLink>
     </div>
+    <div>
+      <p></p>
+    </div>
     <div className="spacer" />
     <ul className="main-nav__items">
       <NavigationItems isAuth={props.isAuth} onLogout={props.onLogout} />
