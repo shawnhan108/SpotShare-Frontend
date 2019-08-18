@@ -95,7 +95,7 @@ const POST_FORM = {
     valid: false,
     touched: false,
     validators: [required]
-  },
+  }
 };
 
 class FeedEdit extends Component {

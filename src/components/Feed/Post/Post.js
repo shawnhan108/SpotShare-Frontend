@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import Button from '../../Button/Button';
 import './Post.css';
@@ -7,48 +7,111 @@ import Loader from '../../Loader/Loader';
 
 class post extends Component {
   state = {
+    bucketNum: 0,
     postInBucket: false,
     btnTitle: 'Bucket!',
     loading: 'true'
   };
 
   bucketHandler = () => {
-    if (!this.state.postInBucket){
-      this.setState({
-        postInBucket: true,
-        btnTitle: 'Unbucket!'
-      });
-      return this.props.onBucket();
+    if (!this.state.postInBucket) {
+      fetch('http://localhost:8080/feed/bucket-num/' + this.props.id, {
+        method: 'PATCH',
+        headers: {
+          Authorization: 'Bearer ' + this.props.token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          newBucketNum: this.state.bucketNum + 1
+        })
+      })
+      .then(res => {
+          if (res.status !== 200 && res.status !== 201) {
+            throw new Error("Can't update bucket number!");
+          }
+          return res.json();
+        })
+      .then(resData => {
+          console.log(resData);
+          this.setState({
+            postInBucket: true,
+            btnTitle: 'Unbucket!'
+          });
+          return this.props.onBucket();
+        })
+      .catch(this.catchError);     
     }
-    else{
-      this.setState({
-        postInBucket: false,
-        btnTitle: 'Bucket!'
-      });
-      return this.props.offBucket();
+    else {
+      fetch('http://localhost:8080/feed/bucket-num/' + this.props.id, {
+        method: 'PATCH',
+        headers: {
+          Authorization: 'Bearer ' + this.props.token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          newBucketNum: this.state.bucketNum - 1
+        })
+      })
+      .then(res => {
+          if (res.status !== 200 && res.status !== 201) {
+            throw new Error("Can't update bucket number!");
+          }
+          return res.json();
+        })
+      .then(resData => {
+          console.log(resData);
+          this.setState({
+            postInBucket: false,
+            btnTitle: 'Bucket!'
+          });
+          return this.props.offBucket();
+        })
+      .catch(this.catchError);
     }
   }
 
   componentDidMount() {
-    if (this.props.userBucket.includes(this.props.id)){
-      this.setState({
-        postInBucket: true,
-        btnTitle: 'Unbucket!'
+    fetch('http://localhost:8080/feed/bucket-num/' + this.props.id, {
+      headers: {
+        Authorization: 'Bearer ' + this.props.token
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Fetching bucket number failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        this.setState({
+          bucketNum: resData.bucketNum
+        });
+        return resData;
+      })
+      .then(resData => {
+        if (this.props.userBucket.includes(this.props.id)) {
+          this.setState({
+            postInBucket: true,
+            btnTitle: 'Unbucket!(' + resData.bucketNum + ')'
+          });
+        }
+        else {
+          this.setState({
+            postInBucket: false,
+            btnTitle: 'Bucket!(' + resData.bucketNum + ')'
+          });
+        }
+        this.setState({
+          loading: 'false'
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
-    }
-    else{
-      this.setState({
-        postInBucket: false,
-        btnTitle: 'Bucket!'
-      });
-    }
-    this.setState({
-      loading: 'false'
-    });
   }
 
   render() {
-    if (this.state.loading === 'true'){
+    if (this.state.loading === 'true') {
       return <Loader />
     };
     return (
@@ -61,7 +124,7 @@ class post extends Component {
           </h3>
         </header>
         <div className="post__image">
-          <img className="post_img" src={'http://localhost:8080/' + this.props.image} alt={this.props.title}/>
+          <img className="post_img" src={'http://localhost:8080/' + this.props.image} alt={this.props.title} />
         </div>
         <Container className="text-center buttonbar">
           <Row className="text-center">
@@ -78,7 +141,7 @@ class post extends Component {
             <div className="button-pad">
               <Button mode="flat" design="danger" colorChange="colorChange" onClick={this.bucketHandler}>
                 {this.state.btnTitle}
-        </Button>
+              </Button>
             </div>
             <div className="button-pad">
               <Button mode="flat" design="danger" onClick={this.props.onDelete}>

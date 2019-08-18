@@ -399,6 +399,7 @@ class Feed extends Component {
                   onBucket={this.bucketPostHandler.bind(this, post._id)}
                   offBucket={this.bucketRemoveHandler.bind(this, post._id)}
                   userBucket={this.state.bucket}
+                  token={this.props.token}
                 />
               ))}
             </Paginator>
