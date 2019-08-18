@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import MobileToggle from '../MobileToggle/MobileToggle';
@@ -7,42 +7,29 @@ import NavigationItems from '../NavigationItems/NavigationItems';
 
 import './MainNavigation.css';
 
-function getUserName (userId, token) {
-  fetch('http://localhost:8080/auth/user' + userId, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + token
-      }
-    })
-    .then(res => {
-      if (res.status !== 200 && res.status !== 201) {
-        throw new Error('Fetching user name failed!');
-      }
-      return res.json();
-    })
-    .then(resData => {
-      console.log(resData);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-}
+class mainNavigation extends Component {
 
-const mainNavigation = props => (
-  <nav className="main-nav">
-    <MobileToggle onOpen={props.onOpenMobileNav} />
-    <div className="main-nav__logo">
-      <NavLink to="/">
-        <Logo />
-      </NavLink>
-    </div>
-    <div>
-    </div>
-    <div className="spacer" />
-    <ul className="main-nav__items">
-      <NavigationItems isAuth={props.isAuth} onLogout={props.onLogout} />
-    </ul>
-  </nav>
-);
+  render() {
+    return (
+      <nav className="main-nav">
+        <MobileToggle onOpen={this.props.onOpenMobileNav} />
+        <div className="main-nav__logo">
+          <NavLink to="/">
+            <Logo />
+          </NavLink>
+        </div>
+        <div className="spacer" />
+        <ul className="main-nav__items">
+          <NavigationItems
+            isAuth={this.props.isAuth}
+            onLogout={this.props.onLogout}
+            isLoading={this.props.isLoading}
+            userId={this.props.userId}
+            token={this.props.token} />
+        </ul>
+      </nav>
+    );
+  }
+}
 
 export default mainNavigation;

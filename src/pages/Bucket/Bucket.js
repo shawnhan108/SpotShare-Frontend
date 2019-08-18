@@ -128,7 +128,6 @@ class Feed extends Component {
         return res.json();
       })
       .then(resData => {
-        console.log(resData);
         return {
             ...resData,
             posts: resData.posts.filter(

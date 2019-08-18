@@ -23,7 +23,6 @@ class App extends Component {
     isAuth: false,
     token: null,
     userId: null,
-    username: null,
     authLoading: false,
     error: null
   };
@@ -109,8 +108,6 @@ class App extends Component {
       });
   };
 
-
-
   signupHandler = (event, authData) => {
     event.preventDefault();
     this.setState({ authLoading: true });
@@ -138,7 +135,6 @@ class App extends Component {
         return res.json();
       })
       .then(resData => {
-        console.log(resData);
         this.setState({ isAuth: false, authLoading: false });
         this.props.history.replace('/');
       })
@@ -163,7 +159,6 @@ class App extends Component {
   };
 
   render() {
-    
     let routes = (
       <Switch>
         <Route
@@ -234,7 +229,6 @@ class App extends Component {
               />
             )}
           />
-          
           <Redirect to="/" />
         </Switch>
       );
@@ -252,7 +246,8 @@ class App extends Component {
                 onOpenMobileNav={this.mobileNavHandler.bind(this, true)}
                 onLogout={this.logoutHandler}
                 isAuth={this.state.isAuth}
-                userID={this.state.userId}
+                isLoading={this.state.authLoading}
+                userId={this.state.userId}
                 token={this.state.token}
               />
             </Toolbar>
@@ -264,7 +259,9 @@ class App extends Component {
               onChooseItem={this.mobileNavHandler.bind(this, false)}
               onLogout={this.logoutHandler}
               isAuth={this.state.isAuth}
-              userID={this.state.userId}
+              isLoading={this.state.authLoading}
+              userId={this.state.userId}
+              token={this.state.token}
             />
           }
         />
