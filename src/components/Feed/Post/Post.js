@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import openSocket from 'socket.io-client';
 
 import Button from '../../Button/Button';
 import './Post.css';
@@ -32,10 +33,15 @@ class post extends Component {
           return res.json();
         })
       .then(resData => {
-          console.log(resData);
           this.setState({
             postInBucket: true,
             btnTitle: 'Unbucket!'
+          });
+          const socket = openSocket('http://localhost:8080');
+          socket.on('bucket', data => {
+            if (data.action === 'update') {
+              this.updateBucketNum(data.newBucketNum);
+            }
           });
           return this.props.onBucket();
         })
@@ -64,10 +70,23 @@ class post extends Component {
             postInBucket: false,
             btnTitle: 'Bucket!'
           });
+          const socket = openSocket('http://localhost:8080');
+          socket.on('bucket', data => {
+            if (data.action === 'update') {
+              this.updateBucketNum(data.newBucketNum);
+            }
+          });
           return this.props.offBucket();
         })
       .catch(this.catchError);
     }
+  }
+
+  updateBucketNum = (newBucketNum) => {
+    this.setState({
+      btnTitle: this.state.btnTitle.split("(")[0] + "(" + newBucketNum + ")"
+    })
+    this.render();
   }
 
   componentDidMount() {
