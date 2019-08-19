@@ -24,7 +24,8 @@ class App extends Component {
     token: null,
     userId: null,
     authLoading: false,
-    error: null
+    error: null,
+    navState: null
   };
 
   componentDidMount() {
@@ -53,10 +54,11 @@ class App extends Component {
   };
 
   logoutHandler = () => {
-    this.setState({ isAuth: false, token: null });
+    this.setState({ isAuth: false, token: null, navState: null });
     localStorage.removeItem('token');
     localStorage.removeItem('expiryDate');
     localStorage.removeItem('userId');
+    window.location.reload();
   };
 
   loginHandler = (event, authData) => {
@@ -83,14 +85,14 @@ class App extends Component {
         return res.json();
       })
       .then(resData => {
+        localStorage.setItem('token', resData.token);
+        localStorage.setItem('userId', resData.userId);
         this.setState({
           isAuth: true,
           token: resData.token,
           authLoading: false,
           userId: resData.userId
         });
-        localStorage.setItem('token', resData.token);
-        localStorage.setItem('userId', resData.userId);
         const remainingMilliseconds = 60 * 60 * 1000;
         const expiryDate = new Date(
           new Date().getTime() + remainingMilliseconds
@@ -249,6 +251,7 @@ class App extends Component {
                 isLoading={this.state.authLoading}
                 userId={this.state.userId}
                 token={this.state.token}
+                state={this.state.navState}
               />
             </Toolbar>
           }

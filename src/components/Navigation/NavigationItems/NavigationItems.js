@@ -15,10 +15,11 @@ const navItems = [
 
 
 class navigationItems extends Component {
+  state = this.props.state;
 
   getUserName = () => {
-    const userId = localStorage.getItem('userId');
-    const token = localStorage.getItem('token');
+    let userId = localStorage.getItem('userId');
+    let token = localStorage.getItem('token');
     fetch('http://localhost:8080/auth/user/' + userId, {
         method: 'GET',
         headers: {
@@ -53,6 +54,9 @@ class navigationItems extends Component {
   }
   
   render () {
+    if (this.props.isAuth && (!this.state)){
+      this.componentDidMount();
+    }
     return ([
         ...navItems.filter(item => item.auth === this.props.isAuth).map(item => (
           <li

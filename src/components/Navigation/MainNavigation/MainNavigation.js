@@ -25,7 +25,8 @@ class mainNavigation extends Component {
             onLogout={this.props.onLogout}
             isLoading={this.props.isLoading}
             userId={this.props.userId}
-            token={this.props.token} />
+            token={this.props.token}
+            state={this.props.state} />
         </ul>
       </nav>
     );
