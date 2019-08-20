@@ -269,6 +269,7 @@ class Feed extends Component {
     formData.append('lens', postData.lens);
     formData.append('equipment', postData.equipment);
     formData.append('edit_soft', postData.edit_soft);
+    formData.append('user_rate', postData.user_rate);
     
     let url = 'http://localhost:8080/feed/posts';
     let method = 'POST';
@@ -412,6 +413,7 @@ class Feed extends Component {
                   lens={post.lens}
                   equipment={post.equipment}
                   edit_soft={post.edit_soft}
+                  user_rate={post.user_rate}
                   onStartEdit={this.startEditPostHandler.bind(this, post._id)}
                   onDelete={this.deletePostHandler.bind(this, post._id)}
                   onBucket={this.bucketPostHandler.bind(this, post._id)}

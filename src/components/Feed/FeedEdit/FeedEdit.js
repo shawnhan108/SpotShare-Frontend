@@ -10,6 +10,7 @@ import { generateBase64FromImage } from '../../../util/image';
 import { Form, Row, Col } from 'react-bootstrap';
 import './FeedEdit.css';
 import Mapp from '../../Map/map';
+import Rating from '../../Rating/Rating';
 import Loader from '../../Loader/Loader';
 
 const POST_FORM = {
@@ -95,6 +96,12 @@ const POST_FORM = {
     valid: false,
     touched: false,
     validators: [required]
+  },
+  user_rate: {
+    value: 3,
+    valid: false,
+    touched: false,
+    validators: [required]
   }
 };
 
@@ -172,6 +179,11 @@ class FeedEdit extends Component {
           ...prevState.postForm.edit_soft,
           value: this.props.selectedPost.edit_soft,
           valid: true
+        },
+        user_rate: {
+          ...prevState.postForm.user_rate,
+          value: this.props.selectedPost.user_rate,
+          valid: true
         }
       };
       this.setState({ postForm: postForm, formIsValid: true, loading: 'false' });
@@ -229,6 +241,23 @@ class FeedEdit extends Component {
     });
   };
 
+  postRatingChangeHandler = (value) => {
+    this.setState(prevState => {
+      const updatedForm = {
+        ...prevState.postForm,
+        user_rate: {
+          ...prevState.postForm.user_rate,
+          valid: true,
+          value: value
+        }
+      };
+      return {
+        postForm: updatedForm,
+        formIsValid: true
+      };
+    });
+  };
+
   inputBlurHandler = input => {
     this.setState(prevState => {
       return {
@@ -265,7 +294,8 @@ class FeedEdit extends Component {
       camera: this.state.postForm.camera.value,
       lens: this.state.postForm.lens.value,
       equipment: this.state.postForm.equipment.value,
-      edit_soft: this.state.postForm.edit_soft.value
+      edit_soft: this.state.postForm.edit_soft.value,
+      user_rate: this.state.postForm.user_rate.value
     };
     this.props.onFinishEdit(post);
     this.setState({
@@ -277,6 +307,7 @@ class FeedEdit extends Component {
   };
 
   render() {
+    console.log(this.state.postForm['user_rate'].value);
     if (!this.props.editing){
       return null;
     }
@@ -463,6 +494,12 @@ class FeedEdit extends Component {
                 value={this.state.postForm['edit_soft'].value}
               />
             </div>
+            <Rating
+              id="user_rate"
+              label="Author Rating for Location"
+              onChange={this.postRatingChangeHandler}
+              value={this.state.postForm['user_rate'].value}
+            />
           </Form>
         </Modalmodel>
       </Fragment>

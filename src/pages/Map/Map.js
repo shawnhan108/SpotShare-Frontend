@@ -15,8 +15,8 @@ class Map extends Component {
     spots: [],
     postsLoading: true,
     viewport: {
-          width: 850,
-          height: 500,
+          width: '800px',
+          height: '400px',
           latitude: 44.161,
           longitude: -98.464,
           zoom: 2
@@ -121,7 +121,7 @@ class Map extends Component {
     return (<div style={{
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
       }}>
         <ReactMapGL
             {...this.state.viewport}

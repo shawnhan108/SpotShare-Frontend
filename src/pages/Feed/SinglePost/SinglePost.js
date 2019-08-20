@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Image from '../../../components/Image/Image';
 import './SinglePost.css';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, ProgressBar } from 'react-bootstrap';
 import Mapp from '../../../components/View-map/view-map';
 import Loader from '../../../components/Loader/Loader';
 
@@ -23,6 +23,7 @@ class SinglePost extends Component {
     lens: '',
     equipment: '',
     edit_soft: '',
+    user_rate: '',
     loading: 'true'
   };
 
@@ -55,6 +56,7 @@ class SinglePost extends Component {
           lens: resData.post.lens,
           equipment: resData.post.equipment,
           edit_soft: resData.post.edit_soft,
+          user_rate: resData.post.user_rate,
           loading: 'false'
         });
       })
@@ -97,10 +99,24 @@ class SinglePost extends Component {
               <Col><h2 className="single_post_normal_h2">Equipments: {this.state.equipment}</h2></Col>
             </Row>
             <Row>
-              <Col></Col>
+              <Col><h2 className="single_post_normal_h2">Author Rating: {this.state.user_rate}</h2></Col>
               <Col><h2 className="single_post_normal_h2">Post-Editing Softwares Used: {this.state.edit_soft}</h2></Col>
             </Row>
           </Container>
+          <div>
+            <Row>
+              <Col xs={2}>
+                <h2 className="single_post_normal_h2">Author Rating: </h2>
+              </Col>
+              <Col>
+                <ProgressBar 
+                  animated striped variant="success" 
+                  now={this.state.user_rate/5*100} 
+                  label={this.state.user_rate}
+                />
+              </Col>
+            </Row>
+          </div>
         </div>
         <div className="map-div" style={{
               display: 'flex',
