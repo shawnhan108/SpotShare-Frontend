@@ -133,49 +133,86 @@ class post extends Component {
     if (this.state.loading === 'true') {
       return <Loader />
     };
-    return (
-      <article className="post">
-        <header className="post__header">
-          <h1 className="post__title text-center">{this.props.title}</h1>
-          <hr></hr>
-          <h3 className="post__infos">
-            Posted by {this.props.author} on {this.props.date} ||  Shot at {this.props.location.text} on {this.props.taken_date}
-          </h3>
-        </header>
-        <div className="post__image">
-          <img className="post_img" src={'http://localhost:8080/' + this.props.image} alt={this.props.title} />
-        </div>
-        <Container className="text-center buttonbar">
-          <Row className="text-center">
-            <div className="button-pad pull-right">
-              <Button mode="flat" link={this.props.id}>
-                View
-              </Button>
-            </div>
-            <div className="button-pad">
-              <Button mode="flat" onClick={this.props.onStartEdit}>
-                Edit
-              </Button>
-            </div>
-            <div className="button-pad">
-              <Button mode="flat" onClick={this.props.startReview}>
-                Review
-              </Button>
-            </div>
-            <div className="button-pad">
-              <Button mode="flat" design="danger" colorChange="colorChange" onClick={this.bucketHandler}>
-                {this.state.btnTitle}
-              </Button>
-            </div>
-            <div className="button-pad">
-              <Button mode="flat" design="danger" onClick={this.props.onDelete}>
-                Delete
-              </Button>
-            </div>
-          </Row>
-        </Container>
-      </article>
-    )
+    if (this.props.author._id === localStorage.getItem('userId')){
+      return (
+        <article className="post">
+          <header className="post__header">
+            <h1 className="post__title text-center">{this.props.title}</h1>
+            <hr></hr>
+            <h3 className="post__infos">
+              Posted by {this.props.author.name} on {this.props.date} ||  Shot at {this.props.location.text} on {this.props.taken_date}
+            </h3>
+          </header>
+          <div className="post__image">
+            <img className="post_img" src={'http://localhost:8080/' + this.props.image} alt={this.props.title} />
+          </div>
+          <Container className="text-center buttonbar" style={{width:'30rem'}}>
+            <Row className="text-center">
+              <div className="button-pad pull-right">
+                <Button mode="flat" link={this.props.id}>
+                  View
+                </Button>
+              </div>
+              <div className="button-pad">
+                <Button mode="flat" onClick={this.props.onStartEdit}>
+                  Edit
+                </Button>
+              </div>
+              <div className="button-pad">
+                <Button mode="flat" onClick={this.props.startReview}>
+                  Review
+                </Button>
+              </div>
+              <div className="button-pad">
+                <Button mode="flat" design="danger" colorChange="colorChange" onClick={this.bucketHandler}>
+                  {this.state.btnTitle}
+                </Button>
+              </div>
+              <div className="button-pad">
+                <Button mode="flat" design="danger" onClick={this.props.onDelete}>
+                  Delete
+                </Button>
+              </div>
+            </Row>
+          </Container>
+        </article>
+      )
+    } else{
+      return (
+        <article className="post">
+          <header className="post__header">
+            <h1 className="post__title text-center">{this.props.title}</h1>
+            <hr></hr>
+            <h3 className="post__infos">
+              Posted by {this.props.author.name} on {this.props.date} ||  Shot at {this.props.location.text} on {this.props.taken_date}
+            </h3>
+          </header>
+          <div className="post__image">
+            <img className="post_img" src={'http://localhost:8080/' + this.props.image} alt={this.props.title} />
+          </div>
+          <Container className="text-center buttonbar" style={{width:'20rem'}}>
+            <Row className="text-center">
+              <div className="button-pad pull-right">
+                <Button mode="flat" link={this.props.id}>
+                  View
+                </Button>
+              </div>
+              <div className="button-pad">
+                <Button mode="flat" onClick={this.props.startReview}>
+                  Review
+                </Button>
+              </div>
+              <div className="button-pad">
+                <Button mode="flat" design="danger" colorChange="colorChange" onClick={this.bucketHandler}>
+                  {this.state.btnTitle}
+                </Button>
+              </div>
+            </Row>
+          </Container>
+        </article>
+      )
+    }
+    
   }
 }
 
