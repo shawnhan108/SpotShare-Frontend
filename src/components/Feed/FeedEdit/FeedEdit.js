@@ -307,7 +307,6 @@ class FeedEdit extends Component {
   };
 
   render() {
-    console.log(this.state.postForm['user_rate'].value);
     if (!this.props.editing){
       return null;
     }

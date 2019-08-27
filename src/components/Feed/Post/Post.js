@@ -150,12 +150,17 @@ class post extends Component {
             <div className="button-pad pull-right">
               <Button mode="flat" link={this.props.id}>
                 View
-        </Button>
+              </Button>
             </div>
             <div className="button-pad">
               <Button mode="flat" onClick={this.props.onStartEdit}>
                 Edit
-        </Button>
+              </Button>
+            </div>
+            <div className="button-pad">
+              <Button mode="flat" onClick={this.props.startReview}>
+                Review
+              </Button>
             </div>
             <div className="button-pad">
               <Button mode="flat" design="danger" colorChange="colorChange" onClick={this.bucketHandler}>
@@ -165,7 +170,7 @@ class post extends Component {
             <div className="button-pad">
               <Button mode="flat" design="danger" onClick={this.props.onDelete}>
                 Delete
-        </Button>
+              </Button>
             </div>
           </Row>
         </Container>

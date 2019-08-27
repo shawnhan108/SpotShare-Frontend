@@ -9,6 +9,7 @@ import Paginator from '../../components/Paginator/Paginator';
 import Loader from '../../components/Loader/Loader';
 import ErrorHandler from '../../components/ErrorHandler/ErrorHandler';
 import './Feed.css';
+import ReviewForm from '../../components/Form/ReviewForm';
 
 class Feed extends Component {
   state = {
@@ -20,7 +21,13 @@ class Feed extends Component {
     postPage: 1,
     postsLoading: true,
     editLoading: false,
-    bucket:[]
+    bucket:[],
+    reviewPost: false,
+    rating: 3,
+    comment:'',
+    ratingTouched: false,
+    commentTouched: false,
+    reviewIsValid: false
   };
 
   componentDidMount() {
@@ -336,9 +343,153 @@ class Feed extends Component {
     this.setState({ error: error });
   };
 
+  startReviewHandler = postId => {
+    const userId = localStorage.getItem('userId');
+    fetch('http://localhost:8080/auth/ratings/' + userId, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + this.props.token
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Fetching ratings failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        for (var i = 0; i < resData.ratings.length; i++){
+          if (resData.ratings[i].post === postId){
+            this.setState({
+              rating: resData.ratings[i].rating,
+              comment: resData.ratings[i].comment,
+              reviewIsValid: true,
+              ratingTouched: true,
+              commentTouched: true
+            });
+            break;
+          }
+        }
+      })
+      .then(res => {
+        this.setState({
+          reviewPost: postId
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  postCommentHandler = (value) => {
+    this.setState({
+      comment: value,
+      commentTouched: true,
+      reviewIsValid: this.state.ratingTouched
+    });
+  };
+  
+  postRatingChangeHandler = (value) => {
+    this.setState({
+      rating: value,
+      ratingTouched: true,
+      reviewIsValid: this.state.commentTouched
+    });
+  };
+
+  cancelReviewHandler = () => {
+    this.setState({
+      rating: 3,
+      ratingTouched: false,
+      commentTouched: false,
+      reviewIsValid: false,
+      reviewPost: false
+    });
+  };
+
+  acceptReviewHandler = async () => {
+    const userId = localStorage.getItem('userId');
+    this.setState({ postsLoading: true });
+    try{
+    const res = await fetch('http://localhost:8080/auth/ratings/' + userId, {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + this.props.token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        postId: this.state.reviewPost,
+        rating: this.state.rating,
+        comment: this.state.comment
+      })
+    })
+    if (res.status !== 200 && res.status !== 201) {
+      throw new Error('Adding a review failed!');
+    }
+    var newRatingId;
+    const res2 = await fetch('http://localhost:8080/auth/ratings/' + userId, {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + this.props.token
+        }
+      })
+    if (res2.status !== 200 && res2.status !== 201) {
+        throw new Error('Fetching ratings failed!');
+    }
+    const resData = await res2.json();
+    console.log(resData);
+    for (var i = 0; i < resData.ratings.length; i++){
+      if (resData.ratings[i].post === this.state.reviewPost){
+        newRatingId = resData.ratings[i]._id;
+        console.log(newRatingId);
+        break;
+      }
+    }
+    console.log(newRatingId);
+    const res3 = await fetch('http://localhost:8080/feed/rating/' + this.state.reviewPost, {
+          method: 'PATCH',
+          headers: {
+            Authorization: 'Bearer ' + this.props.token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: userId,
+            ratingId: newRatingId
+          })
+        })
+    if (res3.status !== 200 && res3.status !== 201) {
+          throw new Error("Can't update review!");
+    }
+    this.setState({
+      postsLoading: false,
+      rating: 3,
+      ratingTouched: false,
+      comment: '',
+      commentTouched: false,
+      reviewIsValid: false,
+      reviewPost: false
+    });
+    }catch (err){
+      console.log(err);
+      this.setState({ 
+        postsLoading: false
+       });
+    }
+  }
+
   render() {
     return (
       <Fragment>
+        <ReviewForm
+          reviewIsValid={this.state.reviewIsValid}
+          cancelReviewHandler={this.cancelReviewHandler}
+          acceptReviewHandler={this.acceptReviewHandler}
+          postRatingChangeHandler={this.postRatingChangeHandler}
+          rating={this.state.rating}
+          postReviewEditing={this.state.reviewPost}
+          comment={this.state.comment}
+          postCommentHandler={this.postCommentHandler}
+        />
         <ErrorHandler error={this.state.error} onHandle={this.errorHandler} />
         <FeedEdit
           editing={this.state.isEditing}
@@ -402,6 +553,7 @@ class Feed extends Component {
                   offBucket={this.bucketRemoveHandler.bind(this, post._id)}
                   userBucket={this.state.bucket}
                   token={this.props.token}
+                  startReview={this.startReviewHandler.bind(this, post._id)}
                 />
               ))}
             </Paginator>
