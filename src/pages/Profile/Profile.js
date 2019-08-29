@@ -68,7 +68,6 @@ class Feed extends Component {
         .catch(err => {
           console.log(err);
         });  
-
     this.loadPosts();
     const socket = openSocket('http://localhost:8080');
     socket.on('posts', data => {
@@ -144,22 +143,84 @@ class Feed extends Component {
         }
     })
       .then(resData => {
-        this.setState({
-          posts: resData.posts.map(post => {
+        if (this.state.status === ''){
+          this.setState({
+            posts: resData.posts.map(post => {
+              return {
+                ...post,
+                imagePath: post.imageUrl
+              };
+            }),
+            totalPosts: resData.totalItems,
+            postsLoading: false
+          });
+        }else{
+          const posts = resData.posts.map(post => {
             return {
               ...post,
               imagePath: post.imageUrl
             };
-          }),
-          totalPosts: resData.totalItems,
-          postsLoading: false
-        });
+          });
+          const result = [];
+          const searchString = this.state.status;
+          for (var i = 0; i < posts.length; i++){
+            const post = posts[i];
+            if (post.title.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.content.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.location.text.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.location.place_name.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.ISO.toString().search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.shutter_speed.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.aperture.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.camera.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.lens.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.equipment.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.edit_soft.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+          }
+          this.setState({
+            posts: result,
+            totalPosts: result.length,
+            postsLoading: false
+          })
+        }
       })
       .catch(this.catchError);
   };
 
-  statusUpdateHandler = event => {
-    event.preventDefault();
+  statusUpdateHandler = () => {
     fetch('http://localhost:8080/auth/status', {
       method: 'PATCH',
       headers: {
@@ -177,8 +238,7 @@ class Feed extends Component {
         return res.json();
       })
       .then(resData => {
-        console.log(resData);
-      })
+        this.loadPosts();      })
       .catch(this.catchError);
   };
 
@@ -376,7 +436,9 @@ class Feed extends Component {
             this.setState({
               rating: resData.ratings[i].rating,
               comment: resData.ratings[i].comment,
-              reviewIsValid: true
+              reviewIsValid: true,
+              ratingTouched: true,
+              commentTouched: true
             });
             break;
           }
@@ -418,10 +480,11 @@ class Feed extends Component {
     });
   };
 
-  acceptReviewHandler = () => {
+  acceptReviewHandler = async () => {
     const userId = localStorage.getItem('userId');
     this.setState({ postsLoading: true });
-    fetch('http://localhost:8080/auth/ratings/' + userId, {
+    try{
+    const res = await fetch('http://localhost:8080/auth/ratings/' + userId, {
       method: 'POST',
       headers: {
         Authorization: 'Bearer ' + this.props.token,
@@ -433,29 +496,64 @@ class Feed extends Component {
         comment: this.state.comment
       })
     })
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error('Adding a review failed!');
+    if (res.status !== 200 && res.status !== 201) {
+      throw new Error('Adding a review failed!');
+    }
+    var newRatingId;
+    const res2 = await fetch('http://localhost:8080/auth/ratings/' + userId, {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + this.props.token
         }
-        return res.json();
       })
-      .then(resData => {
-        this.setState({
-          postsLoading: false,
-          rating: 3,
-          ratingTouched: false,
-          comment: '',
-          commentTouched: false,
-          reviewIsValid: false,
-          reviewPost: false
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({ 
-          postsLoading: false
-         });
-      });
+    if (res2.status !== 200 && res2.status !== 201) {
+        throw new Error('Fetching ratings failed!');
+    }
+    const resData = await res2.json();
+    console.log(resData);
+    for (var i = 0; i < resData.ratings.length; i++){
+      if (resData.ratings[i].post === this.state.reviewPost){
+        newRatingId = resData.ratings[i]._id;
+        console.log(newRatingId);
+        break;
+      }
+    }
+    const res3 = await fetch('http://localhost:8080/feed/rating/' + this.state.reviewPost, {
+          method: 'PATCH',
+          headers: {
+            Authorization: 'Bearer ' + this.props.token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: userId,
+            ratingId: newRatingId
+          })
+        })
+    if (res3.status !== 200 && res3.status !== 201) {
+          throw new Error("Can't update review!");
+    }
+    this.setState({
+      postsLoading: false,
+      rating: 3,
+      ratingTouched: false,
+      comment: '',
+      commentTouched: false,
+      reviewIsValid: false,
+      reviewPost: false
+    });
+    }catch (err){
+      console.log(err);
+      this.setState({ 
+        postsLoading: false
+       });
+    }
+  }
+
+  clearSearchHandler = async () => {
+    await this.setState({
+      status: ''
+    });
+    this.statusUpdateHandler();
   }
 
   render() {
@@ -484,13 +582,16 @@ class Feed extends Component {
           <form onSubmit={this.statusUpdateHandler}>
             <Input
               type="text"
-              placeholder="Your status"
+              placeholder="search for keywords..."
               control="input"
               onChange={this.statusInputChangeHandler}
               value={this.state.status}
             />
             <Button mode="flat" type="submit">
-              Update
+              Search!
+            </Button>
+            <Button mode="flat" onClick={this.clearSearchHandler}>
+              Clear
             </Button>
           </form>
         </section>

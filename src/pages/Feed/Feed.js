@@ -68,7 +68,6 @@ class Feed extends Component {
       .catch(err => {
         console.log(err);
       });
-
     this.loadPosts();
     const socket = openSocket('http://localhost:8080');
     socket.on('posts', data => {
@@ -136,22 +135,85 @@ class Feed extends Component {
         return res.json();
       })
       .then(resData => {
-        this.setState({
-          posts: resData.posts.map(post => {
+        if (this.state.status === ''){
+          this.setState({
+            posts: resData.posts.map(post => {
+              return {
+                ...post,
+                imagePath: post.imageUrl
+              };
+            }),
+            totalPosts: resData.totalItems,
+            postsLoading: false
+          });
+        } else{
+          const posts = resData.posts.map(post => {
             return {
               ...post,
               imagePath: post.imageUrl
             };
-          }),
-          totalPosts: resData.totalItems,
-          postsLoading: false
-        });
+          });
+          const result = [];
+          const searchString = this.state.status;
+          for (var i = 0; i < posts.length; i++){
+            const post = posts[i];
+            if (post.title.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.content.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.location.text.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.location.place_name.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.ISO.toString().search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.shutter_speed.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.aperture.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.camera.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.lens.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.equipment.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+            if (post.edit_soft.search(searchString) !== -1){
+              result.push(post);
+              continue;
+            }
+          }
+          this.setState({
+            posts: result,
+            totalPosts: result.length,
+            postsLoading: false
+          })
+        }
+        
       })
       .catch(this.catchError);
   };
 
-  statusUpdateHandler = event => {
-    event.preventDefault();
+  statusUpdateHandler = () => {
     fetch('http://localhost:8080/auth/status', {
       method: 'PATCH',
       headers: {
@@ -168,8 +230,8 @@ class Feed extends Component {
         }
         return res.json();
       })
-      .then(resData => {
-        console.log(resData);
+      .then(res => {
+        this.loadPosts();
       })
       .catch(this.catchError);
   };
@@ -445,7 +507,6 @@ class Feed extends Component {
         break;
       }
     }
-    console.log(newRatingId);
     const res3 = await fetch('http://localhost:8080/feed/rating/' + this.state.reviewPost, {
           method: 'PATCH',
           headers: {
@@ -477,6 +538,13 @@ class Feed extends Component {
     }
   }
 
+  clearSearchHandler = async () => {
+    await this.setState({
+      status: ''
+    });
+    this.statusUpdateHandler();
+  }
+
   render() {
     return (
       <Fragment>
@@ -502,13 +570,16 @@ class Feed extends Component {
           <form onSubmit={this.statusUpdateHandler}>
             <Input
               type="text"
-              placeholder="Your status"
+              placeholder="search for keywords..."
               control="input"
               onChange={this.statusInputChangeHandler}
               value={this.state.status}
             />
             <Button mode="flat" type="submit">
-              Update
+              Search!
+            </Button>
+            <Button mode="flat" onClick={this.clearSearchHandler}>
+              Clear
             </Button>
           </form>
         </section>

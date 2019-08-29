@@ -53,12 +53,29 @@ class App extends Component {
     this.setState({ showBackdrop: false, showMobileNav: false, error: null });
   };
 
-  logoutHandler = () => {
-    this.setState({ isAuth: false, token: null, navState: null });
-    localStorage.removeItem('token');
-    localStorage.removeItem('expiryDate');
-    localStorage.removeItem('userId');
-    window.location.reload();
+  logoutHandler = async () => {
+    try {
+      const res = await fetch('http://localhost:8080/auth/status', {
+        method: 'PATCH',
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          status: ''
+        })
+      })
+      if (res.status !== 200 && res.status !== 201) {
+        throw new Error("Can't update status!");
+      }
+      this.setState({ isAuth: false, token: null, navState: null });
+      localStorage.removeItem('token');
+      localStorage.removeItem('expiryDate');
+      localStorage.removeItem('userId');
+      window.location.reload();
+    }catch(err){
+      console.log(err)
+    }
   };
 
   loginHandler = (event, authData) => {
