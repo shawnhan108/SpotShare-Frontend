@@ -220,7 +220,10 @@ class Feed extends Component {
       .catch(this.catchError);
   };
 
-  statusUpdateHandler = () => {
+  statusUpdateHandler = event => {
+    if (event !== undefined){
+      event.preventDefault();
+    };
     fetch('http://localhost:8080/auth/status', {
       method: 'PATCH',
       headers: {
