@@ -164,47 +164,47 @@ class Feed extends Component {
           const searchString = this.state.status;
           for (var i = 0; i < posts.length; i++){
             const post = posts[i];
-            if (post.title.search(searchString) !== -1){
+            if (post.title.toLowerCase().search(searchString.toLowerCase()) !== -1){
               result.push(post);
               continue;
             }
-            if (post.content.search(searchString) !== -1){
+            if (post.content.toLowerCase().search(searchString.toLowerCase()) !== -1){
               result.push(post);
               continue;
             }
-            if (post.location.text.search(searchString) !== -1){
+            if (post.location.text.toLowerCase().search(searchString.toLowerCase()) !== -1){
               result.push(post);
               continue;
             }
-            if (post.location.place_name.search(searchString) !== -1){
+            if (post.location.place_name.toLowerCase().search(searchString.toLowerCase()) !== -1){
               result.push(post);
               continue;
             }
-            if (post.ISO.toString().search(searchString) !== -1){
+            if (post.ISO.toString().toLowerCase().search(searchString.toLowerCase()) !== -1){
               result.push(post);
               continue;
             }
-            if (post.shutter_speed.search(searchString) !== -1){
+            if (post.shutter_speed.toLowerCase().search(searchString.toLowerCase()) !== -1){
               result.push(post);
               continue;
             }
-            if (post.aperture.search(searchString) !== -1){
+            if (post.aperture.toLowerCase().search(searchString.toLowerCase()) !== -1){
               result.push(post);
               continue;
             }
-            if (post.camera.search(searchString) !== -1){
+            if (post.camera.toLowerCase().search(searchString.toLowerCase()) !== -1){
               result.push(post);
               continue;
             }
-            if (post.lens.search(searchString) !== -1){
+            if (post.lens.toLowerCase().search(searchString.toLowerCase()) !== -1){
               result.push(post);
               continue;
             }
-            if (post.equipment.search(searchString) !== -1){
+            if (post.equipment.toLowerCase().search(searchString.toLowerCase()) !== -1){
               result.push(post);
               continue;
             }
-            if (post.edit_soft.search(searchString) !== -1){
+            if (post.edit_soft.toLowerCase().search(searchString.toLowerCase()) !== -1){
               result.push(post);
               continue;
             }
