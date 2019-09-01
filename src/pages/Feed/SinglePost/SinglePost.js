@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 
 import Image from '../../../components/Image/Image';
 import './SinglePost.css';
-import { Container, Row, Col, ProgressBar } from 'react-bootstrap';
+import { Container, Row, Col, ProgressBar} from 'react-bootstrap';
 import Mapp from '../../../components/View-map/view-map';
 import Loader from '../../../components/Loader/Loader';
-
+import Button from '../../../components/Button/Button';
+import Toast from '../../../components/Toast/Toast';
 
 class SinglePost extends Component {
   state = {
@@ -25,7 +26,9 @@ class SinglePost extends Component {
     edit_soft: '',
     user_rate: '',
     loading: 'true',
-    public_rate: [{rating: 5}]
+    public_rate: [{rating: 5}],
+    loadComment: 1,
+    btnTitle: 'Load More'
   };
 
   async componentWillMount() {
@@ -96,12 +99,28 @@ class SinglePost extends Component {
     return sum/num;
   }
 
+  getAllCommentsHandler = async () => {
+    if (this.state.btnTitle === 'Load More'){
+      await this.setState({
+        btnTitle: 'Collapse',
+        loadComment: this.state.public_rate.length
+      });
+    } else{
+      await this.setState({
+        btnTitle: 'Load More',
+        loadComment: 1
+      });
+    }
+    return;
+  };
+
   render() {
     if (this.state.loading === 'true'){
       return <Loader />
     }
-    return (
-      <section className="single-post">
+    let rating_copy = JSON.parse(JSON.stringify(this.state.public_rate));
+    return ([(
+      <section className="single-post" key='mainSinglePosts'>
         <h1>{this.state.title}</h1>
         <Container className="Container">
             <h2 className="single-post-center">
@@ -163,6 +182,7 @@ class SinglePost extends Component {
             </Row>
           </div>
         </div>
+        <div style={{height: "100px"}}></div>
         <div className="map-div" style={{
               display: 'flex',
               alignItems: 'center',
@@ -173,8 +193,30 @@ class SinglePost extends Component {
             value={this.state.location.center}
           />
         </div>
-      </section>
-    );
+        <div style={{height: '100px'}}/>
+      </section>),
+      ...rating_copy
+        .sort(function(a, b){return b.rating - a.rating})
+        .splice(0, Math.min(this.state.public_rate.length, this.state.loadComment))
+        .map(rate => (
+      <div style={{display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingBottom: '2rem'}}
+            key={rate.user + "'sComment"}>
+        <Toast
+          user={rate.user}
+          rating={rate.rating}
+          comment={rate.comment}/>
+      </div>
+    )),
+    (<div style={{paddingBottom: '2rem', paddingLeft: '2rem', textAlign: 'center'}}
+          key='LoadAllButton'>
+      <Button mode="flat" onClick={this.getAllCommentsHandler}>
+        {this.state.btnTitle}
+      </Button>
+    </div>)
+    ]);
   }
 }
 

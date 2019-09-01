@@ -9,8 +9,8 @@ const navItems = [
   { id: 'my-profile', text: 'Profile', link: '/posts', auth: true},
   { id: 'my-bucket', text: 'Bucket', link: '/my-bucket', auth: true},
   { id: 'my-map', text: 'Map', link: '/my-map', auth: true},
-  { id: 'login', text: 'Login', link: '/', auth: false },
-  { id: 'signup', text: 'Signup', link: '/signup', auth: false }
+  { id: 'login', text: 'Login', link: '/', auth: false},
+  { id: 'signup', text: 'Signup', link: '/signup', auth: false}
 ];
 
 
