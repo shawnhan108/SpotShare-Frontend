@@ -4,7 +4,7 @@ import Input from '../../components/Form/Input/Input';
 import Button from '../../components/Button/Button';
 import { required, length, email } from '../../util/validators';
 import Auth from './Auth';
-import { Form } from 'react-bootstrap';
+import { Form, Carousel} from 'react-bootstrap';
 import './Auth.css';
 
 class Login extends Component {
@@ -67,7 +67,44 @@ class Login extends Component {
 
   render() {
     return (
-      <Auth>
+      <div>
+      <Carousel style={{paddingBottom: '2rem'}} slide={true}>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src="Norway.jpg"
+              alt="Iceland"
+            />
+            <Carousel.Caption>
+              <h1>Welcome to SpotShare</h1>
+              <p style={{fontSize: '120%'}}>Showcase your breathtaking landscape photos</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src="Aletsch Glacier.jpg"
+              alt="Norway"
+            />
+            <Carousel.Caption>
+              <h1>Welcome to SpotShare</h1>
+              <p style={{fontSize: '120%'}}>Share your favourate locations with others</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src="French Polynesia.jpg"
+              alt="Switzerland"
+            />
+            <Carousel.Caption>
+              <h1>Welcome to SpotShare</h1>
+              <p style={{fontSize: '120%'}}>Map your own bucket list for photo trips</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+        </Carousel>
+        <div style={{paddingBottom: '2rem'}}>
+        <Auth>
         <Form
           onSubmit={e =>
             this.props.onLogin(e, {
@@ -112,6 +149,8 @@ class Login extends Component {
           
         </Form>
       </Auth>
+      </div>
+      </div>
     );
   }
 }

@@ -5,7 +5,7 @@ import Button from '../../components/Button/Button';
 import { required, length, email } from '../../util/validators';
 import Auth from './Auth';
 import './Auth.css';
-import { Form } from 'react-bootstrap';
+import { Form, Carousel} from 'react-bootstrap';
 
 class Signup extends Component {
   state = {
@@ -73,6 +73,43 @@ class Signup extends Component {
 
   render() {
     return (
+      <div>
+        <Carousel style={{paddingBottom: '2rem'}}>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src="Norway.jpg"
+              alt="Iceland"
+            />
+            <Carousel.Caption>
+              <h1>Welcome to SpotShare</h1>
+              <p style={{fontSize: '120%'}}>Showcase your breathtaking landscape photos</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src="Aletsch Glacier.jpg"
+              alt="Norway"
+            />
+            <Carousel.Caption>
+              <h1>Welcome to SpotShare</h1>
+              <p style={{fontSize: '120%'}}>Share your favourate locations with others</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src="French Polynesia.jpg"
+              alt="Switzerland"
+            />
+            <Carousel.Caption>
+              <h1>Welcome to SpotShare</h1>
+              <p style={{fontSize: '120%'}}>Map your own bucket list for photo trips</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+        </Carousel>
+      <div style={{paddingBottom: '2rem'}}>
       <Auth>
         <Form onSubmit={e => this.props.onSignup(e, this.state)}>
         <div className="login_input">
@@ -126,6 +163,8 @@ class Signup extends Component {
           </div>
         </Form>
       </Auth>
+      </div>
+      </div>
     );
   }
 }
