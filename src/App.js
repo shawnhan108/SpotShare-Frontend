@@ -9,6 +9,7 @@ import MobileNavigation from './components/Navigation/MobileNavigation/MobileNav
 import ErrorHandler from './components/ErrorHandler/ErrorHandler';
 import FeedPage from './pages/Feed/Feed';
 import Profile from './pages/Profile/Profile';
+import Rankings from './pages/Ranking/Ranking';
 import Map from './pages/Map/Map';
 import Bucket from './pages/Bucket/Bucket';
 import SinglePostPage from './pages/Feed/SinglePost/SinglePost';
@@ -229,6 +230,13 @@ class App extends Component {
             exact
             render={props => (
               <Map userId={this.state.userId} token={this.state.token} />
+            )}
+          />
+          <Route
+            path="/rankings"
+            exact
+            render={props => (
+              <Rankings userId={this.state.userId} token={this.state.token} />
             )}
           />
           <Route

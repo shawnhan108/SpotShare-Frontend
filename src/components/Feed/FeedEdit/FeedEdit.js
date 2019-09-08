@@ -366,7 +366,6 @@ class FeedEdit extends Component {
                 value={this.state.postForm['content'].value}
               />
             </div>
-
             <div className="input-padding">
               <Input
                 id="taken_date"
@@ -380,7 +379,6 @@ class FeedEdit extends Component {
               />
             </div>
             <div className="input-padding">
-              
               <div>
                 <p>Location</p>
                 <div className="location-div">

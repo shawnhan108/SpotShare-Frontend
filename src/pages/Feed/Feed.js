@@ -24,6 +24,7 @@ class Feed extends Component {
     bucket:[],
     reviewPost: false,
     rating: 3,
+    oldRating: 3,
     comment:'',
     ratingTouched: false,
     commentTouched: false,
@@ -427,6 +428,7 @@ class Feed extends Component {
           if (resData.ratings[i].post === postId){
             this.setState({
               rating: resData.ratings[i].rating,
+              oldRating: resData.ratings[i].rating,
               comment: resData.ratings[i].comment,
               reviewIsValid: true,
               ratingTouched: true,
@@ -491,6 +493,8 @@ class Feed extends Component {
     if (res.status !== 200 && res.status !== 201) {
       throw new Error('Adding a review failed!');
     }
+    const Rez = await res.json();
+    const new_rating = !Rez.old_rating;
     var newRatingId;
     const res2 = await fetch('http://localhost:8080/auth/ratings/' + userId, {
         method: 'GET',
@@ -518,7 +522,10 @@ class Feed extends Component {
           },
           body: JSON.stringify({
             userId: userId,
-            ratingId: newRatingId
+            ratingId: newRatingId,
+            oldRating: this.state.oldRating,
+            newRating: new_rating,
+            value: this.state.rating
           })
         })
     if (res3.status !== 200 && res3.status !== 201) {

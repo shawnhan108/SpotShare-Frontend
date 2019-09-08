@@ -1,0 +1,70 @@
+.contentDiv {
+  width: 100%;
+  padding: 1rem;
+  height: 130px;
+  text-align: center;
+  background-color: white;
+  border-left: 5px solid #3b0062;
+  border-top: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.thumbnail {
+  max-height: 100px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.contentDiv:hover {
+  background-color: gainsboro;
+}
+
+.feed__status {
+    width: 90%;
+    margin: 1rem auto;
+  }
+  
+  .feed__status form {
+    display: flex;
+    align-items: center;
+  }
+  
+  .feed__status form * {
+    margin: 0 0.5rem;
+  }
+  
+  .feed__control {
+    text-align: center;
+  }
+  
+  .new-post__preview-image {
+    width: 20rem;
+    height: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .feed__status {
+      width: 30rem;
+    }
+  }
+  
+  @media (max-width: 991px) {
+    .thumbnail {
+      max-height: 80px;
+      max-width: 144px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 5px;
+    }
+  }
+  @media (max-width: 767px) {
+    .thumbnail {
+      max-height: 70px;
+      max-width: 80px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 5px;
+    }
+  }
+
