@@ -26,7 +26,8 @@ class mainNavigation extends Component {
             isLoading={this.props.isLoading}
             userId={this.props.userId}
             token={this.props.token}
-            state={this.props.state} />
+            state={this.props.state}
+            name={this.props.name} />
         </ul>
       </nav>
     );

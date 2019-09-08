@@ -56,8 +56,8 @@ class navigationItems extends Component {
   
   render () {
     if (this.props.isAuth && (!this.state)){
-      this.componentDidMount();
-    }
+      window.location.reload();
+    } 
     return ([
         ...navItems.filter(item => item.auth === this.props.isAuth).map(item => (
           <li

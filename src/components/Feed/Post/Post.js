@@ -65,7 +65,6 @@ class post extends Component {
           return res.json();
         })
       .then(resData => {
-          console.log(resData);
           this.setState({
             postInBucket: false,
             btnTitle: 'Bucket!'

@@ -70,9 +70,7 @@ class App extends Component {
         throw new Error("Can't update status!");
       }
       this.setState({ isAuth: false, token: null, navState: null });
-      localStorage.removeItem('token');
-      localStorage.removeItem('expiryDate');
-      localStorage.removeItem('userId');
+      localStorage.clear();
       window.location.reload();
     }catch(err){
       console.log(err)
