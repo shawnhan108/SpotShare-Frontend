@@ -133,7 +133,7 @@ class post extends Component {
             <h1 className="post__title text-center">{this.props.title}</h1>
             <hr></hr>
             <h3 className="post__infos">
-              Posted by {this.props.author} on {this.props.date} ||  Shot at {this.props.location.text} on {this.props.taken_date}
+              Posted by {this.props.author.name} on {this.props.date} ||  Shot at {this.props.location.text} on {this.props.taken_date}
             </h3>
           </header>
           <div className="post__image">
@@ -177,7 +177,7 @@ class post extends Component {
             <h1 className="post__title text-center">{this.props.title}</h1>
             <hr></hr>
             <h3 className="post__infos">
-              Posted by {this.props.author} on {this.props.date} ||  Shot at {this.props.location.text} on {this.props.taken_date}
+              Posted by {this.props.author.name} on {this.props.date} ||  Shot at {this.props.location.text} on {this.props.taken_date}
             </h3>
           </header>
           <div className="post__image">

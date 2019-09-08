@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import openSocket from 'socket.io-client';
-
+import {Redirect} from 'react-router-dom';
 
 import Button from '../../components/Button/Button';
 import Input from '../../components/Form/Input/Input';
@@ -28,7 +28,8 @@ class Feed extends Component {
     show_post_limit: 3,
     show_post_limit_region: 3,
     posts_to_display: [],
-    regionRatings: []
+    regionRatings: [],
+    redirected: false
   };
 
   componentDidMount() {
@@ -589,13 +590,16 @@ class Feed extends Component {
     });
     this.statusUpdateHandler();
   }
-
+  
 render () {
     if (this.state.posts.length === 0){
         return <h4>No ratings can be found</h4>;
     }
     let posts_copy = JSON.parse(JSON.stringify(this.state.posts));
     let regions_copy = JSON.parse(JSON.stringify(this.state.regionRatings));
+    if (this.state.redirected){
+      return <Redirect to='/' />
+    }
     return ([
         (
         <section className="feed__status" key='search'>
@@ -719,9 +723,12 @@ render () {
                                     mode="flat" 
                                     onClick={async () => {
                                         await this.setState({
-                                            status: region.region
+                                          status: region.region
                                         });
-                                        this.statusUpdateHandler();
+                                        await this.statusUpdateHandler();
+                                        this.setState({
+                                          redirected: true
+                                        });
                                         }}>
                                         Search
                                 </Button>
