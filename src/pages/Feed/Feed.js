@@ -72,12 +72,10 @@ class Feed extends Component {
     this.loadPosts();
     const socket = openSocket('http://localhost:8080');
     socket.on('posts', data => {
-      if (data.action === 'create') {
-        this.addPost(data.post);
+      if (data.action === 'delete') {
+        this.loadPosts();
       } else if (data.action === 'update') {
         this.updatePost(data.post);
-      } else if (data.action === 'delete') {
-        this.loadPosts();
       }
     });
   }
@@ -613,7 +611,7 @@ class Feed extends Component {
                 <Post
                   key={post._id}
                   id={post._id}
-                  author={post.creator}
+                  author={post.creator.name}
                   date={new Date(post.createdAt).toLocaleDateString('en-US')}
                   title={post.title}
                   image={post.imageUrl}

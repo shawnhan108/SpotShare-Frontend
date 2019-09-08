@@ -46,9 +46,7 @@ class Map extends Component {
     this.loadPosts();
     const socket = openSocket('http://localhost:8080');
     socket.on('posts', data => {
-      if (data.action === 'create') {
-        this.loadPosts();
-      } else if (data.action === 'update') {
+      if (data.action === 'update') {
         this.updatePost(data.post);
       } else if (data.action === 'delete') {
         this.loadPosts();
