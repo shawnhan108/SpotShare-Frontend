@@ -97,7 +97,12 @@ class SinglePost extends Component {
       sum += ratings[i].rating;
       num += 1;
     }
-    return sum/num;
+    const result = sum/num;
+    if (Number.isNaN(result)){
+      return ['None', 'None', 'None']
+    }else{
+      return [result * 20, (result + '/ 5'), result];
+    }
   }
 
   getAllCommentsHandler = async () => {
@@ -120,6 +125,7 @@ class SinglePost extends Component {
       return <Loader />
     }
     let rating_copy = JSON.parse(JSON.stringify(this.state.public_rate));
+    let public_rate_data = this.getRateAverage();
     return ([(
       <section className="single-post" key='mainSinglePosts'>
         <Mapp
@@ -189,12 +195,12 @@ class SinglePost extends Component {
               </tr>
               <tr>
                 <td>Public Rating</td>
-                <td>{this.getRateAverage()}</td>
+                <td>{public_rate_data[2]}</td>
                 <td colSpan="2">
                   <ProgressBar 
                     animated striped variant={this.progressBarColorHandler()} 
-                    now={(this.getRateAverage())/5 * 100} 
-                    label={this.getRateAverage() + ' / 5'}
+                    label={public_rate_data[1]}
+                    now={public_rate_data[0]} 
                   />
                 </td>
               </tr>

@@ -7,6 +7,7 @@ import Input from '../../components/Form/Input/Input';
 import './Ranking.css';
 import {Table} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Loader from '../../components/Loader/Loader';
 
 class Feed extends Component {
   state = {
@@ -238,7 +239,7 @@ class Feed extends Component {
             if (num !== 0){
                 avgRating = sum/num;
             }else{
-                avgRating = 3;
+                avgRating = 0;
             }
             const len = regionPosts[0].location.context.length;
             const country = regionPosts[0].location.context[len - 1].text;
@@ -604,7 +605,7 @@ class Feed extends Component {
                   alt={post.title}
                   className='thumbnail'/></td>
             <td>{post.location.text}</td>
-            <td>{post.rating}</td>
+            <td>{this.ratingHelper(post.rating)}</td>
             <td>{post.creator.name}</td>
             <td>
               <Link to={post._id}>
@@ -615,6 +616,14 @@ class Feed extends Component {
             </td>
           </tr>
         ))
+  }
+
+  ratingHelper = rating => {
+    if (rating === 0){
+      return 'None';
+    }else{
+      return rating;
+    }
   }
 
   renderTopRegionData = () => {
@@ -644,7 +653,7 @@ class Feed extends Component {
   
 render () {
     if (this.state.posts.length === 0){
-        return <h4>No ratings can be found</h4>;
+        return <Loader />;
     }
     if (this.state.redirected){
       return <Redirect to='/' />

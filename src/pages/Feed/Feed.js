@@ -508,7 +508,6 @@ class Feed extends Component {
     for (var i = 0; i < resData.ratings.length; i++){
       if (resData.ratings[i].post === this.state.reviewPost){
         newRatingId = resData.ratings[i]._id;
-        console.log(newRatingId);
         break;
       }
     }
