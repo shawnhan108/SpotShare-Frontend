@@ -3,6 +3,7 @@
   padding: 0 1rem;
   display: flex;
   align-items: center;
+  z-index: 500;
 }
 
 .spacer {

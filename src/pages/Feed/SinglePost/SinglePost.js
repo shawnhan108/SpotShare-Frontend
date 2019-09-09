@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Image from '../../../components/Image/Image';
 import './SinglePost.css';
-import { Container, Row, Col, ProgressBar} from 'react-bootstrap';
+import { Container, ProgressBar, Table} from 'react-bootstrap';
 import Mapp from '../../../components/View-map/view-map';
 import Loader from '../../../components/Loader/Loader';
 import Button from '../../../components/Button/Button';
@@ -28,7 +28,8 @@ class SinglePost extends Component {
     loading: 'true',
     public_rate: [{rating: 5}],
     loadComment: 1,
-    btnTitle: 'Load More'
+    btnTitle: 'Load More',
+    viewMap: false
   };
 
   async componentWillMount() {
@@ -121,6 +122,12 @@ class SinglePost extends Component {
     let rating_copy = JSON.parse(JSON.stringify(this.state.public_rate));
     return ([(
       <section className="single-post" key='mainSinglePosts'>
+        <Mapp
+          viewMap={this.state.viewMap}
+          text={this.state.location.text}
+          value={this.state.location.center}
+          cancelViewMap={() => {this.setState({viewMap: false})}}
+        />
         <h1>{this.state.title}</h1>
         <Container className="Container">
             <h2 className="single-post-center">
@@ -135,65 +142,68 @@ class SinglePost extends Component {
         <div className="single-post__info padding">
           <p>{this.state.content}</p>
           <hr className="hr"></hr>
-          <Container>
-            <Row>
-              <Col><h2 className="single_post_normal_h2">ISO: {this.state.ISO}</h2></Col>
-              <Col><h2 className="single_post_normal_h2">Camera: {this.state.camera}</h2></Col>
-            </Row>
-            <Row>
-              <Col><h2 className="single_post_normal_h2">Shutter Speed: {this.state.shutter_speed}</h2></Col>
-              <Col><h2 className="single_post_normal_h2">Lens: {this.state.lens}</h2></Col>
-            </Row>
-            <Row>
-              <Col><h2 className="single_post_normal_h2">Aperture: {this.state.aperture}</h2></Col>
-              <Col><h2 className="single_post_normal_h2">Equipments: {this.state.equipment}</h2></Col>
-            </Row>
-            <Row>
-              <Col><h2 className="single_post_normal_h2">Author Rating: {this.state.user_rate}</h2></Col>
-              <Col><h2 className="single_post_normal_h2">Post-Editing Softwares Used: {this.state.edit_soft}</h2></Col>
-            </Row>
-          </Container>
-          <div>
-            <Row>
-              <Col xs={2}>
-                <h2 className="single_post_normal_h2">Author Rating: </h2>
-              </Col>
-              <Col>
-                <ProgressBar 
-                  animated striped variant={this.progressBarColorHandler()} 
-                  now={this.state.user_rate/5*100} 
-                  label={this.state.user_rate + ' / 5'}
-                />
-              </Col>
-            </Row>
-          </div>
-          <div>
-            <Row>
-              <Col xs={2}>
-                <h2 className="single_post_normal_h2">Public Rating: </h2>
-              </Col>
-              <Col>
-                <ProgressBar 
-                  animated striped variant={this.progressBarColorHandler()} 
-                  now={(this.getRateAverage())/5 * 100} 
-                  label={this.getRateAverage() + ' / 5'}
-                />
-              </Col>
-            </Row>
-          </div>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Parameters</th>
+                <th>Value</th>
+                <th>Equipments</th>
+                <th>Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ISO</td>
+                <td>{this.state.ISO}</td>
+                <td>Camera</td>
+                <td>{this.state.camera}</td>
+              </tr>
+              <tr>
+                <td>Shutter Speed</td>
+                <td>{this.state.shutter_speed}</td>
+                <td>Lens</td>
+                <td>{this.state.lens}</td>
+              </tr>
+              <tr>
+                <td>Aperture</td>
+                <td>{this.state.aperture}</td>
+                <td>Other Equips</td>
+                <td>{this.state.equipment}</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td>Post-Editing Softwares</td>
+                <td>{this.state.edit_soft}</td>
+              </tr>
+              <tr>
+                <td>Author Rating</td>
+                <td>{this.state.user_rate}</td>
+                <td colSpan="2">
+                  <ProgressBar 
+                    animated striped variant={this.progressBarColorHandler()} 
+                    now={this.state.user_rate/5*100} 
+                    label={this.state.user_rate + ' / 5'}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Public Rating</td>
+                <td>{this.getRateAverage()}</td>
+                <td colSpan="2">
+                  <ProgressBar 
+                    animated striped variant={this.progressBarColorHandler()} 
+                    now={(this.getRateAverage())/5 * 100} 
+                    label={this.getRateAverage() + ' / 5'}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </Table>
         </div>
-        <div style={{height: "100px"}}></div>
-        <div className="map-div" style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-          <Mapp
-            text={this.state.location.text}
-            value={this.state.location.center}
-          />
-        </div>
-        <div style={{height: '100px'}}/>
+        <div style={{height: "30px"}}></div>
+        <Button mode='flat' onClick={() => {this.setState({viewMap: true})}}>View Map</Button>
+        <div style={{height: "30px"}}></div>
       </section>),
       ...rating_copy
         .sort(function(a, b){return b.rating - a.rating})
