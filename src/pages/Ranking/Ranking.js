@@ -5,7 +5,7 @@ import {Redirect} from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Form/Input/Input';
 import './Ranking.css';
-import {Row, Col, Container} from 'react-bootstrap';
+import {Table} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 class Feed extends Component {
@@ -590,19 +590,68 @@ class Feed extends Component {
     });
     this.statusUpdateHandler();
   }
+
+  renderTopPostData = () => {
+    let posts_copy = JSON.parse(JSON.stringify(this.state.posts));
+    return posts_copy
+        .sort(function(a, b){return b.rating - a.rating;})
+        .splice(0, this.state.show_post_limit)
+        .map(post => (
+          <tr key={post._id} style={{borderLeft: "5px solid #134f2d"}}>
+            <td>{post.title}</td>
+            <td><img 
+                  src={'http://localhost:8080/' + post.imageUrl}
+                  alt={post.title}
+                  className='thumbnail'/></td>
+            <td>{post.location.text}</td>
+            <td>{post.rating}</td>
+            <td>{post.creator.name}</td>
+            <td>
+              <Link to={post._id}>
+                <Button mode="flat">
+                View
+                </Button>
+              </Link>
+            </td>
+          </tr>
+        ))
+  }
+
+  renderTopRegionData = () => {
+    let regions_copy = JSON.parse(JSON.stringify(this.state.regionRatings));
+    return regions_copy
+        .sort(function(a, b){return b.avgRating - a.avgRating;})
+        .splice(0, this.state.show_post_limit_region)
+        .map(region => (
+          <tr key={region.region} style={{borderLeft: "5px solid #134f2d"}}>
+            <td>{region.region}</td>
+            <td>{region.country}</td>
+            <td>{region.avgRating}</td>
+            <td>
+              <Button 
+                  mode="flat" 
+                  onClick={async () => {
+                    await this.setState({status: region.region});
+                    await this.statusUpdateHandler();
+                    this.setState({redirected: true});
+                  }}>
+                Search
+              </Button>
+            </td>
+          </tr>
+        ))
+  }
   
 render () {
     if (this.state.posts.length === 0){
         return <h4>No ratings can be found</h4>;
     }
-    let posts_copy = JSON.parse(JSON.stringify(this.state.posts));
-    let regions_copy = JSON.parse(JSON.stringify(this.state.regionRatings));
     if (this.state.redirected){
       return <Redirect to='/' />
     }
     return ([
         (
-        <section className="feed__status" key='search'>
+        <section className="feed__status" key='search' style={{textAlign: "center"}}>
             <form onSubmit={this.statusUpdateHandler}>
               <Input
                 type="text"
@@ -623,56 +672,31 @@ render () {
         (<div key='title' style={{textAlign: 'center', paddingTop: '3rem'}}>
             <h2>Top-rated Posts:</h2>
         </div>), 
-        (<div key='label' style={{padding: '1rem', textAlign: 'center'}}>
-            <Container>
-            <Row>
-                <Col><strong>Post</strong></Col>
-                <Col><strong>Preview</strong></Col>
-                <Col><strong>Location</strong></Col>
-                <Col><strong>Public Rating</strong></Col>
-                <Col><strong>Author</strong></Col>
-            </Row>
-        </Container>
-        </div>),
-        ...posts_copy
-            .sort(function(a, b){
-                     return b.rating - a.rating;
-                })
-            .splice(0, this.state.show_post_limit)
-            .map(post => (
-                <Link 
-                    to={post._id}
-                    key={post._id}
-                >
-                <div 
-                    key={post._id + 'div'}
-                    className='contentDiv'
-                    >
-                    <Container>
-                        <Row>
-                            <Col><p style={{color: 'black'}}>{post.title}</p></Col>
-                            <Col>
-                                
-                                    <img 
-                                        src={'http://localhost:8080/' + post.imageUrl}
-                                        alt={post.title}
-                                        className='thumbnail'/>
-                            </Col>
-                            <Col>
-                                <p style={{color: 'black'}}>{post.location.text}</p>
-                            </Col>
-                            <Col>
-                                <p style={{color: 'black'}}>{post.rating}</p>
-                            </Col>
-                            <Col>
-                                <p style={{color: 'black'}}>{post.creator.name}</p>
-                            </Col>
-                        </Row>
-                    </Container>
-                    
-                </div>
-                </Link>
-            )),
+        (<div key='topratepost' style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingBottom: '2rem',
+            paddingLeft: '2rem',
+            paddingRight: '2rem',
+            textAlign: "center"}}>
+             <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Post</th>
+                  <th>Preview</th>
+                  <th>Location</th>
+                  <th>Public Rating</th>
+                  <th>Author</th>
+                  <th>View</th>
+                </tr>
+              </thead>
+                <tbody>
+                   {this.renderTopPostData()}
+                </tbody>
+             </Table>
+          </div>
+       ),
             (
             <div key='moreButton' style={{textAlign: 'center', padding: '1rem'}}>
                 <Button 
@@ -687,58 +711,30 @@ render () {
           ),
         (<div key='title-geo' style={{textAlign: 'center', paddingTop: '3rem'}}>
             <h2>Top-rated Regions:</h2>
-            </div>), 
-        (<div key='label-geo' style={{padding: '1rem', textAlign: 'center'}}>
-            <Container>
-            <Row>
-                <Col><strong>Region</strong></Col>
-                <Col><strong>Country</strong></Col>
-                <Col><strong>Average Rating</strong></Col>
-                <Col><strong>Filter</strong></Col>
-            </Row>
-        </Container>
-        </div>),
-        ...regions_copy
-        .sort(function(a, b){
-                 return b.avgRating - a.avgRating;
-            })
-        .splice(0, this.state.show_post_limit_region)
-        .map(region => (
-            <div 
-                key={region.region}
-                className='contentDiv'
-                >
-                <Container>
-                    <Row>
-                        <Col><p style={{color: 'black', paddingTop: '25px'}}>{region.region}</p></Col>
-                        <Col>
-                            <p style={{color: 'black', paddingTop: '25px'}}>{region.country}</p>
-                        </Col>
-                        <Col>
-                            <p style={{color: 'black', paddingTop: '25px'}}>{region.avgRating}</p>
-                        </Col>
-                        <Col>
-                            <div style={{textAlign: 'center', padding: '1rem'}}>
-                                <Button 
-                                    mode="flat" 
-                                    onClick={async () => {
-                                        await this.setState({
-                                          status: region.region
-                                        });
-                                        await this.statusUpdateHandler();
-                                        this.setState({
-                                          redirected: true
-                                        });
-                                        }}>
-                                        Search
-                                </Button>
-                            </div>
-                        </Col>
-                    </Row>
-                </Container>
-                
-            </div>
-        )),
+            </div>),
+        (<div key='toprategeo' style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingBottom: '2rem',
+          paddingLeft: '2rem',
+          paddingRight: '2rem',
+          textAlign: "center"}}>
+           <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Region</th>
+                <th>Country</th>
+                <th>Average Rating</th>
+                <th>Filter</th>
+              </tr>
+            </thead>
+              <tbody>
+                 {this.renderTopRegionData()}
+              </tbody>
+           </Table>
+        </div>
+     ),
         (
             <div key='moreButtonRegion' style={{textAlign: 'center', padding: '1rem'}}>
                 <Button 
