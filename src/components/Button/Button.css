@@ -39,7 +39,7 @@
 
 
 .button--raised {
-  background: #3b0062;
+  background: #134f2d;
   color: white;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.26);
 }
@@ -52,7 +52,7 @@
 
 .button--raised:hover,
 .button--raised:active {
-  background: #520288;
+  background: #134f2d;
 }
 
 .button.button--accent {
@@ -63,7 +63,7 @@
 .button--accent:hover,
 .button--accent:active {
   background: #fab83f;
-  color: #3b0062;
+  color: #134f2d;
 }
 
 
@@ -75,7 +75,7 @@
 
 .button.button--accent.button--raised {
   background: #fab83f;
-  color: #3b0062;
+  color: #134f2d;
 }
 
 .button--raised.button--accent:hover,

@@ -77,7 +77,7 @@ class navigationItems extends Component {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item 
-                  style={{color: "purple"}} 
+                  style={{color: "green"}} 
                   onClick={this.props.onLogout}>
                   Logout
                 </Dropdown.Item>
