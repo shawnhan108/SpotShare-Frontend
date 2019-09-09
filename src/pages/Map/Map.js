@@ -116,10 +116,14 @@ class Map extends Component {
     if (this.state.postsLoading){
         return <Loader />
     }
-    return (<div style={{
+    return (
+    <div style={{textAlign: 'center'}}>
+    <h2>Bucket List Locations:</h2>
+    <div style={{
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        textAlign: 'center'
       }}>
         <ReactMapGL
             {...this.state.viewport}
@@ -129,7 +133,7 @@ class Map extends Component {
         >
         {this.createMarkers()}
         </ReactMapGL>
-      </div>
+      </div></div>
     );
   }
 }

@@ -282,7 +282,6 @@ class Feed extends Component {
         return res.json();
       })
       .then(resData => {
-        console.log(resData);
         this.loadPosts();
         this.state.bucket.push(postId);
       })
@@ -309,7 +308,6 @@ class Feed extends Component {
         return res.json();
       })
       .then(resData => {
-        console.log(resData);
         this.loadPosts();
         for (var i = 0; i < this.state.bucket.length; i++){
           if (this.state.bucket[i] === postId){
@@ -363,7 +361,6 @@ class Feed extends Component {
         return res.json();
       })
       .then(resData => {
-        console.log(resData);
         this.setState(prevState => {
           return {
             isEditing: false,
@@ -402,7 +399,6 @@ class Feed extends Component {
         return res.json();
       })
       .then(resData => {
-        console.log(resData);
         this.loadPosts();
       })
       .catch(err => {
@@ -517,11 +513,9 @@ class Feed extends Component {
         throw new Error('Fetching ratings failed!');
     }
     const resData = await res2.json();
-    console.log(resData);
     for (var i = 0; i < resData.ratings.length; i++){
       if (resData.ratings[i].post === this.state.reviewPost){
         newRatingId = resData.ratings[i]._id;
-        console.log(newRatingId);
         break;
       }
     }

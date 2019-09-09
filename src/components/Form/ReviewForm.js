@@ -15,7 +15,7 @@ class reviewForm extends Component {
               <Form>
                 <Rating
                   id="Rating"
-                  label="Rate this location: "
+                  label="Rate this location"
                   onChange={this.props.postRatingChangeHandler}
                   value={this.props.rating}
                 />
