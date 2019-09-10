@@ -18,7 +18,7 @@ class Mapp extends Component {
       };
 
     mapWidth = () => {
-      if (window.screen.width > 500){
+      if (window.screen.availWidth > 500){
         return '450px';
       } else{
         return '320px';
