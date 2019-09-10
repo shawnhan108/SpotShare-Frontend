@@ -30,12 +30,12 @@
   font: inherit;
   background: transparent;
   border: none;
-  color: white;
+  color: #f2ad22;
   cursor: pointer;
   padding: 0;
 }
 
 .navigation-item button:hover,
 .navigation-item button:active {
-  color: #fab83f;
+  color:white;
 }
