@@ -16,6 +16,15 @@ class Mapp extends Component {
           zoom: 8
         }
       };
+
+    mapWidth = () => {
+      if (window.screen.width > 500){
+        return '450px';
+      } else{
+        return '320px';
+      }
+    }
+
       render() {
         return this.props.viewMap ? (
           <Modalmodal
@@ -29,7 +38,7 @@ class Mapp extends Component {
                 onViewportChange={(viewport) => this.setState({viewport})}
                 mapboxApiAccessToken={MAPBOX_TOKEN}
                 mapStyle='mapbox://styles/y262han/cjz3kx9a80fby1cr3d8oydttt'
-                width='450px'
+                width={this.mapWidth()}
                 height='400px'
               />
           </Modalmodal>

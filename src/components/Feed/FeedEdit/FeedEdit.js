@@ -306,6 +306,14 @@ class FeedEdit extends Component {
     });
   };
 
+  mapWidth = () => {
+    if (window.screen.width > 500){
+      return '450px';
+    } else{
+      return '320px';
+    }
+  }
+
   render() {
     if (!this.props.editing){
       return null;
@@ -396,7 +404,7 @@ class FeedEdit extends Component {
             }}>
               <Mapp
                 id="location"
-                width="450px"
+                width={this.mapWidth()}
                 height="250px"
                 inputval={this.state.postForm['location'].value.text}
                 value={this.state.postForm['location'].value}
