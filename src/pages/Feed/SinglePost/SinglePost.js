@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
-import Image from '../../../components/Image/Image';
 import './SinglePost.css';
-import { Container, ProgressBar, Table} from 'react-bootstrap';
+import { Container, ProgressBar, Table, Image} from 'react-bootstrap';
 import Mapp from '../../../components/View-map/view-map';
 import Loader from '../../../components/Loader/Loader';
 import Button from '../../../components/Button/Button';
@@ -142,8 +141,8 @@ class SinglePost extends Component {
             <h2 className="single-post-center">Shot at {this.state.location.text} on {this.state.taken_date}</h2>
         </Container>
         <hr className="hr"></hr>
-        <div className="single-post__image">
-          <Image contain imageUrl={this.state.image} className="the_image"/>
+        <div style={{padding: '1rem', maxHeight: '40rem'}}>
+          <Image src={this.state.image} fluid style={{maxHeight: '35rem'}}/>
         </div>
         <div className="single-post__info padding">
           <p>{this.state.content}</p>

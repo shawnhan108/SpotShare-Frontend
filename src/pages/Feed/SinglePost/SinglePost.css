@@ -31,18 +31,30 @@
 }
 
 .single-post__image {
-  display: block;
-  height: 40rem;
+  min-height: 100%;
+  overflow : auto;
+  position: relative;
   width: 100%;
-  margin: 1rem auto;
+  margin: 1rem;
 }
 
 @media (min-width: 768px) {
   .single-post {
-    width: 70rem;
+    width: 90%;
   }
   .single-post__info{
     width: 55rem;
     display: inline-block
+  }
+}
+
+@media (max-width: 750px) {
+  .single-post {
+    width: 100%;
+  }
+
+  .single-post__info {
+    width: 90%;
+    display: inline-block;
   }
 }
