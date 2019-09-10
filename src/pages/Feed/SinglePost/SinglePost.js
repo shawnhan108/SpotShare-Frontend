@@ -34,7 +34,7 @@ class SinglePost extends Component {
   async componentWillMount() {
     const postId = this.props.match.params.postId;
     try{
-    const res = await fetch('http://localhost:8080/feed/post/' + postId, {
+    const res = await fetch('https://photography-spot-share.herokuapp.com/feed/post/' + postId, {
       headers: {
         Authorization: 'Bearer ' + this.props.token
       }
@@ -46,7 +46,7 @@ class SinglePost extends Component {
     this.setState({
       title: resData.post.title,
       author: resData.post.creator.name,
-      image: 'http://localhost:8080/' + resData.post.imageUrl,
+      image: 'https://photography-spot-share.herokuapp.com/' + resData.post.imageUrl,
       date: new Date(resData.post.createdAt).toLocaleDateString('en-US'),
       content: resData.post.content,
       taken_date: resData.post.taken_date,
@@ -61,7 +61,7 @@ class SinglePost extends Component {
       user_rate: resData.post.user_rate,
       loading: 'false'
     });
-    const res2 = await fetch('http://localhost:8080/feed/rating/' + postId, {
+    const res2 = await fetch('https://photography-spot-share.herokuapp.com/feed/rating/' + postId, {
       headers: {
         Authorization: 'Bearer ' + this.props.token
       }

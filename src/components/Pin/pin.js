@@ -13,7 +13,7 @@ class pin extends Component {
             <Card style={{ width: '10rem' }}>
                 <Card.Img
                     variant="top"
-                    src={'http://localhost:8080/' + this.props.image}
+                    src={'https://photography-spot-share.herokuapp.com/' + this.props.image}
                     alt={this.props.title} />
                 <Card.Body>
                     <Card.Title className='title'>{this.props.title}</Card.Title>

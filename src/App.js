@@ -56,7 +56,7 @@ class App extends Component {
 
   logoutHandler = async () => {
     try {
-      const res = await fetch('http://localhost:8080/auth/status', {
+      const res = await fetch('https://photography-spot-share.herokuapp.com/auth/status', {
         method: 'PATCH',
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -81,7 +81,7 @@ class App extends Component {
     event.preventDefault();
     localStorage.clear();
     this.setState({ authLoading: true });
-    fetch('http://localhost:8080/auth/login', {
+    fetch('https://photography-spot-share.herokuapp.com/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -130,7 +130,7 @@ class App extends Component {
   signupHandler = (event, authData) => {
     event.preventDefault();
     this.setState({ authLoading: true });
-    fetch('http://localhost:8080/auth/signup', {
+    fetch('https://photography-spot-share.herokuapp.com/auth/signup', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

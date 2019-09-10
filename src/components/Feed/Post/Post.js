@@ -16,7 +16,7 @@ class post extends Component {
 
   bucketHandler = () => {
     if (!this.state.postInBucket) {
-      fetch('http://localhost:8080/feed/bucket-num/' + this.props.id, {
+      fetch('https://photography-spot-share.herokuapp.com/feed/bucket-num/' + this.props.id, {
         method: 'PATCH',
         headers: {
           Authorization: 'Bearer ' + this.props.token,
@@ -42,7 +42,7 @@ class post extends Component {
       .catch(this.catchError);     
     }
     else {
-      fetch('http://localhost:8080/feed/bucket-num/' + this.props.id, {
+      fetch('https://photography-spot-share.herokuapp.com/feed/bucket-num/' + this.props.id, {
         method: 'PATCH',
         headers: {
           Authorization: 'Bearer ' + this.props.token,
@@ -63,7 +63,7 @@ class post extends Component {
             postInBucket: false,
             btnTitle: 'Bucket!'
           });
-          const socket = openSocket('http://localhost:8080');
+          const socket = openSocket('https://photography-spot-share.herokuapp.com');
           socket.on('bucket', data => {
             if (data.action === 'update') {
               this.updateBucketNum(data.newBucketNum);
@@ -83,7 +83,7 @@ class post extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8080/feed/bucket-num/' + this.props.id, {
+    fetch('https://photography-spot-share.herokuapp.com/feed/bucket-num/' + this.props.id, {
       headers: {
         Authorization: 'Bearer ' + this.props.token
       }
@@ -137,7 +137,7 @@ class post extends Component {
             </h3>
           </header>
           <div className="post__image">
-            <img className="post_img" src={'http://localhost:8080/' + this.props.image} alt={this.props.title} />
+            <img className="post_img" src={'https://photography-spot-share.herokuapp.com/' + this.props.image} alt={this.props.title} />
           </div>
           <Container className="text-center buttonbar" style={{width:'30rem'}}>
             <Row className="text-center">
@@ -181,7 +181,7 @@ class post extends Component {
             </h3>
           </header>
           <div className="post__image">
-            <img className="post_img" src={'http://localhost:8080/' + this.props.image} alt={this.props.title} />
+            <img className="post_img" src={'https://photography-spot-share.herokuapp.com/' + this.props.image} alt={this.props.title} />
           </div>
           <Container className="text-center buttonbar" style={{width:'20rem'}}>
             <Row className="text-center">

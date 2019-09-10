@@ -33,7 +33,7 @@ class Feed extends Component {
   };
 
   componentDidMount() {
-    fetch('http://localhost:8080/auth/status', {
+    fetch('https://photography-spot-share.herokuapp.com/auth/status', {
       headers: {
         Authorization: 'Bearer ' + this.props.token
       }
@@ -50,7 +50,7 @@ class Feed extends Component {
       })
       .catch(this.catchError);
     
-      fetch('http://localhost:8080/auth/bucket', {
+      fetch('https://photography-spot-share.herokuapp.com/auth/bucket', {
         headers: {
           Authorization: 'Bearer ' + this.props.token
         }
@@ -70,7 +70,7 @@ class Feed extends Component {
           console.log(err);
         });  
     this.loadPosts();
-    const socket = openSocket('http://localhost:8080');
+    const socket = openSocket('https://photography-spot-share.herokuapp.com');
     socket.on('posts', data => {
       if (data.action === 'create') {
         this.addPost(data.post);
@@ -124,7 +124,7 @@ class Feed extends Component {
       page--;
       this.setState({ postPage: page });
     }
-    fetch('http://localhost:8080/feed/posts?page=' + page, {
+    fetch('https://photography-spot-share.herokuapp.com/feed/posts?page=' + page, {
       headers: {
         Authorization: 'Bearer ' + this.props.token
       }
@@ -225,7 +225,7 @@ class Feed extends Component {
     if (event !== undefined){
       event.preventDefault();
     };
-    fetch('http://localhost:8080/auth/status', {
+    fetch('https://photography-spot-share.herokuapp.com/auth/status', {
       method: 'PATCH',
       headers: {
         Authorization: 'Bearer ' + this.props.token,
@@ -269,7 +269,7 @@ class Feed extends Component {
 
   bucketPostHandler = postId => {
     this.setState({ postsLoading: true });
-    fetch('http://localhost:8080/auth/bucket/' + postId, {
+    fetch('https://photography-spot-share.herokuapp.com/auth/bucket/' + postId, {
       method: 'POST',
       headers: {
         Authorization: 'Bearer ' + this.props.token
@@ -295,7 +295,7 @@ class Feed extends Component {
 
   bucketRemoveHandler = postId => {
     this.setState({ postsLoading: true });
-    fetch('http://localhost:8080/auth/bucket/' + postId, {
+    fetch('https://photography-spot-share.herokuapp.com/auth/bucket/' + postId, {
       method: 'DELETE',
       headers: {
         Authorization: 'Bearer ' + this.props.token
@@ -340,10 +340,10 @@ class Feed extends Component {
     formData.append('edit_soft', postData.edit_soft);
     formData.append('user_rate', postData.user_rate);
     
-    let url = 'http://localhost:8080/feed/posts';
+    let url = 'https://photography-spot-share.herokuapp.com/feed/posts';
     let method = 'POST';
     if (this.state.editPost) {
-      url = 'http://localhost:8080/feed/post/' + this.state.editPost._id;
+      url = 'https://photography-spot-share.herokuapp.com/feed/post/' + this.state.editPost._id;
       method = 'PUT';
     }
 
@@ -386,7 +386,7 @@ class Feed extends Component {
 
   deletePostHandler = postId => {
     this.setState({ postsLoading: true });
-    fetch('http://localhost:8080/feed/post/' + postId, {
+    fetch('https://photography-spot-share.herokuapp.com/feed/post/' + postId, {
       method: 'DELETE',
       headers: {
         Authorization: 'Bearer ' + this.props.token
@@ -418,7 +418,7 @@ class Feed extends Component {
 
   startReviewHandler = postId => {
     const userId = localStorage.getItem('userId');
-    fetch('http://localhost:8080/auth/ratings/' + userId, {
+    fetch('https://photography-spot-share.herokuapp.com/auth/ratings/' + userId, {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + this.props.token
@@ -485,7 +485,7 @@ class Feed extends Component {
     const userId = localStorage.getItem('userId');
     this.setState({ postsLoading: true });
     try{
-    const res = await fetch('http://localhost:8080/auth/ratings/' + userId, {
+    const res = await fetch('https://photography-spot-share.herokuapp.com/auth/ratings/' + userId, {
       method: 'POST',
       headers: {
         Authorization: 'Bearer ' + this.props.token,
@@ -503,7 +503,7 @@ class Feed extends Component {
     const Rez = await res.json();
     const new_rating = !Rez.old_rating;
     var newRatingId;
-    const res2 = await fetch('http://localhost:8080/auth/ratings/' + userId, {
+    const res2 = await fetch('https://photography-spot-share.herokuapp.com/auth/ratings/' + userId, {
         method: 'GET',
         headers: {
           Authorization: 'Bearer ' + this.props.token
@@ -519,7 +519,7 @@ class Feed extends Component {
         break;
       }
     }
-    const res3 = await fetch('http://localhost:8080/feed/rating/' + this.state.reviewPost, {
+    const res3 = await fetch('https://photography-spot-share.herokuapp.com/feed/rating/' + this.state.reviewPost, {
           method: 'PATCH',
           headers: {
             Authorization: 'Bearer ' + this.props.token,

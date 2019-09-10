@@ -21,7 +21,7 @@ class navigationItems extends Component {
   getUserName = () => {
     let userId = localStorage.getItem('userId');
     let token = localStorage.getItem('token');
-    fetch('http://localhost:8080/auth/user/' + userId, {
+    fetch('https://photography-spot-share.herokuapp.com/auth/user/' + userId, {
         method: 'GET',
         headers: {
           Authorization: 'Bearer ' + token

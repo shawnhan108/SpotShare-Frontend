@@ -24,7 +24,7 @@ class Map extends Component {
   };
 
   componentDidMount() {
-      fetch('http://localhost:8080/auth/bucket', {
+      fetch('https://photography-spot-share.herokuapp.com/auth/bucket', {
         headers: {
           Authorization: 'Bearer ' + this.props.token
         }
@@ -44,7 +44,7 @@ class Map extends Component {
           console.log(err);
         });  
     this.loadPosts();
-    const socket = openSocket('http://localhost:8080');
+    const socket = openSocket('https://photography-spot-share.herokuapp.com');
     socket.on('posts', data => {
       if (data.action === 'update') {
         this.updatePost(data.post);
@@ -55,7 +55,7 @@ class Map extends Component {
   }
 
   loadPosts = () => {
-    fetch('http://localhost:8080/feed/all-posts', {
+    fetch('https://photography-spot-share.herokuapp.com/feed/all-posts', {
       headers: {
         Authorization: 'Bearer ' + this.props.token
       }
