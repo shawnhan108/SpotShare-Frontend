@@ -12,7 +12,7 @@ Tools used:
 - Backend (RESTful API): Node.js
 - Frontend: React.js, react-bootstrap framework
 - Database: MongoDB
-- Javascript tools and APIs: JWT web token, Socket.io websocket, Mapbox dynamic map API.
+- Javascript tools and APIs: Express.js, JWT web token, Socket.io websocket, Mapbox dynamic map API.
 
 App deployed at: https://photography-spot-share-front.herokuapp.com/
 Please use Google Chrome for best app experience.
