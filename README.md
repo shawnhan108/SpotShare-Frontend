@@ -3,7 +3,7 @@ A web application for photographers.
 
 Highlighted Features of the App:
 - Posts with photography specs, including shot location, ISO, Aperture, Shutter Speed, Camera, Lens, Equipements, etc.
-- Ratings and Ranking for posts and locations.
+- Ratings and Ranking for posts and locations. Bucketlist location and comment under reviews.
 - Customized map and markers to display photo locations using Mapbox API.
 - Keyword-searching for post info.
 - Bucket listing posts and mass-display locations on a single map.
