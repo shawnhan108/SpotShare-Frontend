@@ -11,7 +11,7 @@
     "react-dom": "^16.8.6",
     "react-map-gl": "^5.0.8",
     "react-map-gl-geocoder": "^2.0.9",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^7.5.2",
     "react-scripts": "^3.0.1",
     "react-star-rating-component": "^1.4.1",
     "reactstrap": "^8.0.1",
