@@ -12,7 +12,7 @@
     "react-map-gl": "^5.0.8",
     "react-map-gl-geocoder": "^2.0.9",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^5.0.1",
     "react-star-rating-component": "^1.4.1",
     "reactstrap": "^8.0.1",
     "serve": "^11.1.0",
